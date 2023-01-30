@@ -3,6 +3,10 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using TMPro;
+
+// Add for Dropdown functionality
+using System.Linq;
 
 // VAR05BEN Composer Script
 
@@ -21,10 +25,17 @@ public class Composer : MonoBehaviour
     public List<GameObject> notesList;
     public GameObject noteButtonPrefab;
     public Transform noteListParent;
-   
+
+    // Temporary note remove with dropdown, declare variable
+    public TMP_Dropdown audioSourcesDropdown;
+    public Button removeDropdownButton;
+
 
     private void Start()
     {
+        // Populate the dropdown
+        RefreshDropdownOptions();
+
         // Add the PlayNotesInComposition method as a listener for the play button's onClick event
         playButton.onClick.AddListener(PlayNotesInComposition);
         // Add the ClearNotesInComposition method as a listener for the clear button's onClick event
@@ -49,6 +60,9 @@ public class Composer : MonoBehaviour
 
         addButton.gameObject.SetActive(false);
         removeButton.gameObject.SetActive(true);
+
+        // Temp for Dropdown
+        RefreshDropdownOptions();
 
     }
 
@@ -91,7 +105,23 @@ public class Composer : MonoBehaviour
         Destroy(instance);
     }
 
+    // Remove notes from composition - REMOVE WITH DROPDOWN
+    public void RemoveSelectedAudioSource()
+    {
+        int selectedIndex = audioSourcesDropdown.value;
+        notesInComposition.RemoveAt(selectedIndex);
 
+        RefreshDropdownOptions();
+    }
+
+
+    // Update the dropdown options - REMOVE WITH DROPDOWN
+    private void RefreshDropdownOptions()
+    {
+        audioSourcesDropdown.ClearOptions();
+        List<string> options = notesInComposition.Select(source => source.name).ToList();
+        audioSourcesDropdown.AddOptions(options);
+    }
 
     void Update()
     {
