@@ -95,6 +95,7 @@ public class Composer : MonoBehaviour
             Destroy(instance);
         }
         notesList.Clear();
+        RefreshDropdownOptions();
     }
 
     // Remove selected note from notesInComposition
