@@ -712,7 +712,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 337111607}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 938593561}
+        m_TargetAssemblyTypeName: Composer, Assembly-CSharp
+        m_MethodName: PlayNotesInComposition
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &337111607
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2734,24 +2746,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e14026a1d2c6bd4fb31ef22e1667873, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  notesInScale:
-  - {fileID: 874733258}
-  - {fileID: 1570636162}
-  - {fileID: 2083895175}
-  - {fileID: 503219523}
-  - {fileID: 1494643304}
-  - {fileID: 897712267}
-  - {fileID: 22622437}
-  - {fileID: 913197138}
-  - {fileID: 719573397}
-  - {fileID: 1099675145}
-  - {fileID: 1622336532}
-  - {fileID: 388143527}
   playButton: {fileID: 337111606}
   clearButton: {fileID: 1540880754}
-  notesList: []
-  noteButtonPrefab: {fileID: 8323326900070142423, guid: 538265aaa0fe7b74b9d1b39255b4c90b, type: 3}
-  noteListParent: {fileID: 1918688108}
   audioSourcesDropdown: {fileID: 1866226926}
   removeDropdownButton: {fileID: 2077668193}
 --- !u!1 &1026049704
@@ -4656,7 +4652,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1540880755}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 938593561}
+        m_TargetAssemblyTypeName: Composer, Assembly-CSharp
+        m_MethodName: ClearNotesInComposition
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1540880755
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5514,7 +5522,6 @@ MonoBehaviour:
   audioSource: {fileID: 0}
   playButton: {fileID: 0}
   addButton: {fileID: 0}
-  removeButton: {fileID: 0}
 --- !u!4 &1757478888
 Transform:
   m_ObjectHideFlags: 0

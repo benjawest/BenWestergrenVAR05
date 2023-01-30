@@ -8,15 +8,15 @@ public class NoteButton : MonoBehaviour
     public AudioSource audioSource;
     public Button playButton;
     public Button addButton;
-    public Button removeButton;
+    //public Button removeButton;
     private Composer composer;
 
     private void Start()
     {
         // Get a reference to the Composer script
         composer = GameObject.Find("Composer").GetComponent<Composer>();
-        // set remove as not active
-        removeButton.gameObject.SetActive(false);
+        //// set remove as not active
+        //removeButton.gameObject.SetActive(false);
     }
 
     // Play the audio source attached to the prefab
@@ -31,13 +31,11 @@ public class NoteButton : MonoBehaviour
         composer.AddNoteToComposition(audioSource);
     }
 
-    public void RemoveNoteFromComposition()
-    {
-        composer.RemoveNoteFromComposition(audioSource, this.gameObject);
+    //// Remove note from selected position in notesInComposition<>
+    //public void RemoveNoteFromComposition()
+    //{
+    //    composer.RemoveNoteFromComposition(audioSource, this.gameObject);
       
-    }
-
-
-
+    //}
 
 }
