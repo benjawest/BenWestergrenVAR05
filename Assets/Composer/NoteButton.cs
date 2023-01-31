@@ -3,39 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+// Prefab for single note UI.
+// Handles playback of single notes on demand
+// References Composer, to add this objects' note to notesInComposition<>
 public class NoteButton : MonoBehaviour
 {
     public AudioSource audioSource;
     public Button playButton;
     public Button addButton;
-    //public Button removeButton;
     private Composer composer;
 
     private void Start()
     {
         // Get a reference to the Composer script
         composer = GameObject.Find("Composer").GetComponent<Composer>();
-        //// set remove as not active
-        //removeButton.gameObject.SetActive(false);
     }
 
-    // Play the audio source attached to the prefab
+    // Play this objects' note
     public void PlayNote()
     {
         audioSource.Play();
     }
 
-    // Add the audio source attached to the prefab to the notesInComposition list
+    // Add this objects' note to notesInComposition<>
     public void AddNoteToComposition()
     {
         composer.AddNoteToComposition(audioSource);
     }
-
-    //// Remove note from selected position in notesInComposition<>
-    //public void RemoveNoteFromComposition()
-    //{
-    //    composer.RemoveNoteFromComposition(audioSource, this.gameObject);
-      
-    //}
-
 }
