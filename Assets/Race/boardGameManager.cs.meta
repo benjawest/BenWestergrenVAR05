@@ -3,7 +3,12 @@ guid: fa770c4d97bfdd94e8a48adb0f89c925
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - MudPrefab: {instanceID: 0}
+  - GrassPrefab: {instanceID: 0}
+  - FinishPrefab: {instanceID: 0}
+  - Pawn1Prefab: {instanceID: 0}
+  - Pawn2Prefab: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
