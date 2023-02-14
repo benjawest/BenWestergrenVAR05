@@ -11,7 +11,7 @@ using UnityEngine.UI;
 // Initializes all gameobjects, runs the game logic, and moves the pawns
 public class boardGameManager : MonoBehaviour
 {
-    public int TileCount = 10;
+    public int TileCount = 11;
     public float TimeBetweenTurns = 0.2f;
     public int playerIndex1 = 0;
     public int playerIndex2 = 0;
@@ -29,16 +29,14 @@ public class boardGameManager : MonoBehaviour
     public GameObject gameResultWin, gameResultLose;
     public TMP_InputField inputField;
     public Camera mainCamera;
-    public float smoothing = 5f; // The smoothing factor for the camera movement
-
-    public int offset = 5;
-    private Transform leader;
+    public Transform leader;
 
 
-    // Sets up Stat Menu
+    // Sets up Start Menu
     void Start()
     {
         startButton.interactable = false;
+        inputField.text = "10";
     
     }
 
@@ -46,10 +44,16 @@ public class boardGameManager : MonoBehaviour
     // Enables Start button if the user has selected a player
     public void EnableStartButton()
     {
-        if ((pawn1Toggle.isOn || pawn2Toggle.isOn) && !(pawn1Toggle.isOn && pawn2Toggle.isOn))
+        int fieldValue = int.Parse(inputField.text);
+        if ((pawn1Toggle.isOn || pawn2Toggle.isOn) && !(pawn1Toggle.isOn && pawn2Toggle.isOn) && fieldValue != 0)
         {
             startButton.interactable = true;
         }
+        else if (fieldValue == 0)
+        {
+            startButton.interactable = false;
+        }
+
         else
         {
             startButton.interactable = false;
@@ -57,51 +61,55 @@ public class boardGameManager : MonoBehaviour
     }
 
 
+    // Assign Tile count from player input, or default to 10
     // Generate Board Tiles
     // Instantiate Tiles
     // Instantiate Pawns
     // Run Game
     public void StartGame()
     {
-        if (pawn1Toggle.isOn)
+        
+        // Double check that input for race length is valid
+        int parsedInput;
+        if (int.TryParse(inputField.text, out parsedInput) && parsedInput > 0)
         {
-            playerChoice = "Pawn1";
+            // Assign player choice to selected pawn
+            if (pawn1Toggle.isOn)
+            {
+                playerChoice = "Pawn1";
+            }
+            else if (pawn2Toggle.isOn)
+            {
+                playerChoice = "Pawn2";
+            }
+
+            startMenu.SetActive(false);
+            AssignTileCount();
+            GenerateBoardTileTypes(TileCount);
+            InstantiateTiles();
+            InstantiatePawns();
+            StartCoroutine(Game());
         }
-        else if (pawn2Toggle.isOn)
+        else
         {
-            playerChoice = "Pawn2";
+            Debug.Log("Invalid Race Length");
         }
-
-        startMenu.SetActive(false);
-
-        AssignTileCount();
        
-        GenerateBoardTileTypes(TileCount);
-        InstantiateTiles();
-        InstantiatePawns();
-
-        // Debug: Print content of board game tile types
-        Debug.Log("boardTileTypes: ");
-        foreach (var tile in boardTileTypes)
-        {
-            Debug.Log(tile);
-        }
-
-        StartCoroutine(Game());
     }
 
 
-
+    // Checks if input is valid, assigns TileCount from user input
     private void AssignTileCount()
     {
         int parsedInput;
-        if (int.TryParse(inputField.text, out parsedInput) && parsedInput >= 0)
+        if (int.TryParse(inputField.text, out parsedInput) && parsedInput > 0)
         {
-            TileCount = parsedInput;
+            TileCount = parsedInput + 1;
         }
         else
         {
             Debug.Log("Invalid Race Length, input must be a natural number. Setting to Default of 10.");
+            TileCount = 12;
         }
     }
 
@@ -141,7 +149,7 @@ public class boardGameManager : MonoBehaviour
         
     }
 
-    // 
+    // Create tiles for race, one for each player
     public void InstantiateTiles()
     {
         for (int i = 0; i < TileCount; i++)
@@ -168,7 +176,7 @@ public class boardGameManager : MonoBehaviour
     }
 
 
-
+    // Create pawns at tile 0
     public void InstantiatePawns()
     {
         Vector3 position1 = new Vector3(0.0f, 0.5f, 0f);
@@ -215,7 +223,7 @@ public class boardGameManager : MonoBehaviour
             if (randomInt == 0)
             {
                 playerIndex++;
-                outputText.text = playerName + " advanced through the grass";
+                outputText.text = playerName + " moved to tile: " + playerIndex;
                 Debug.Log(playerName + " moved to tile: " + playerIndex);
                 MovePawn(playerName);
             }
@@ -227,7 +235,7 @@ public class boardGameManager : MonoBehaviour
             if (randomInt == 0)
             {
                 playerIndex++;
-                outputText.text = playerName + " advanced through the mud";
+                outputText.text = playerName + " moved to tile: " + playerIndex;
                 Debug.Log(playerName + " moved to tile: " + playerIndex);
                 MovePawn(playerName);
             }
@@ -248,7 +256,7 @@ public class boardGameManager : MonoBehaviour
         UpdateCamera();
     }
 
-    // Checks Game Results
+    // Checks is winning pawn was players' choice
     public void CheckGameResult()
     {
         if (playerChoice == "Pawn1" && pawn1.transform.position.z > pawn2.transform.position.z)
@@ -288,8 +296,10 @@ public class boardGameManager : MonoBehaviour
         {
             Destroy(tile);
         }
+        ResetCamera();
     }
 
+    // Move camera to match leading pawn
     private void UpdateCamera()
     {
         // Check if the leader has changed by comparing their positions along the z-axis
@@ -308,11 +318,15 @@ public class boardGameManager : MonoBehaviour
             }
         }
 
-        // Calculate the target position for the camera, based on the leader's position and the offset
         Vector3 targetCamPos = new Vector3(mainCamera.transform.position.x, mainCamera.transform.position.y, leader.position.z);
+        mainCamera.transform.position = targetCamPos;
+    }
 
-        // Smoothly move the camera towards the target position
-        mainCamera.transform.position = Vector3.Lerp(mainCamera.transform.position, targetCamPos, smoothing * Time.deltaTime);
+
+    // Move Camera back to origin
+    private void ResetCamera()
+    {
+        mainCamera.transform.position = new Vector3(5f, 2.5f, 0f);
     }
 
 
