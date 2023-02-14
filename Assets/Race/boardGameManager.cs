@@ -27,9 +27,15 @@ public class boardGameManager : MonoBehaviour
     public Toggle pawn1Toggle, pawn2Toggle;
     public GameObject startMenu;
     public GameObject gameResultWin, gameResultLose;
+    public TMP_InputField inputField;
+    public Camera mainCamera;
+    public float smoothing = 5f; // The smoothing factor for the camera movement
+
+    public int offset = 5;
+    private Transform leader;
 
 
-  // Sets up Stat Menu
+    // Sets up Stat Menu
     void Start()
     {
         startButton.interactable = false;
@@ -68,6 +74,8 @@ public class boardGameManager : MonoBehaviour
 
         startMenu.SetActive(false);
 
+        AssignTileCount();
+       
         GenerateBoardTileTypes(TileCount);
         InstantiateTiles();
         InstantiatePawns();
@@ -80,10 +88,22 @@ public class boardGameManager : MonoBehaviour
         }
 
         StartCoroutine(Game());
-
-
     }
 
+
+
+    private void AssignTileCount()
+    {
+        int parsedInput;
+        if (int.TryParse(inputField.text, out parsedInput) && parsedInput >= 0)
+        {
+            TileCount = parsedInput;
+        }
+        else
+        {
+            Debug.Log("Invalid Race Length, input must be a natural number. Setting to Default of 10.");
+        }
+    }
 
     // Begin The Game
     // While neither player is at the finish, Check if players advance, with a pause between player turns. 
@@ -109,6 +129,7 @@ public class boardGameManager : MonoBehaviour
         else if (playerIndex2 >= TileCount - 1)
         {
             CheckGameResult();
+            outputText.text = "Player 2 won after " + TurnCount + " turns!";
             Debug.Log("Player 2 won after " + TurnCount + " turns!");
         }
     }
@@ -155,6 +176,7 @@ public class boardGameManager : MonoBehaviour
 
         pawn1 = Instantiate(Pawn1Prefab, position1, Quaternion.identity);
         pawn2 = Instantiate(Pawn2Prefab, position2, Quaternion.identity);
+        leader = pawn1.transform;
     }
 
     // Generates tile types for the board game
@@ -223,6 +245,7 @@ public class boardGameManager : MonoBehaviour
         {
             pawn2.transform.position += new Vector3(0, 0, 1);
         }
+        UpdateCamera();
     }
 
     // Checks Game Results
@@ -266,6 +289,32 @@ public class boardGameManager : MonoBehaviour
             Destroy(tile);
         }
     }
+
+    private void UpdateCamera()
+    {
+        // Check if the leader has changed by comparing their positions along the z-axis
+        if (pawn1.transform.position.z > pawn2.transform.position.z)
+        {
+            if (pawn1.transform.position.z > leader.position.z)
+            {
+                leader = pawn1.transform;
+            }
+        }
+        else
+        {
+            if (pawn2.transform.position.z > leader.position.z)
+            {
+                leader = pawn2.transform;
+            }
+        }
+
+        // Calculate the target position for the camera, based on the leader's position and the offset
+        Vector3 targetCamPos = new Vector3(mainCamera.transform.position.x, mainCamera.transform.position.y, leader.position.z);
+
+        // Smoothly move the camera towards the target position
+        mainCamera.transform.position = Vector3.Lerp(mainCamera.transform.position, targetCamPos, smoothing * Time.deltaTime);
+    }
+
 
 
 
