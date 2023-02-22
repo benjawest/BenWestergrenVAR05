@@ -38,6 +38,7 @@ public class BlackjackManager : MonoBehaviour
         // Hide extra cards on start
         playerScript.ResetHand();
         dealerScript.ResetHand();
+        hideCard.GetComponent<Renderer>().enabled = false;
 
         // Add on click listeners to the buttons
         // Hide Hit and Set 
@@ -54,6 +55,7 @@ public class BlackjackManager : MonoBehaviour
         // Reset Round
         playerScript.ResetHand();
         dealerScript.ResetHand();
+        hideCard.GetComponent<Renderer>().enabled = true;
         // Clear mainText
         mainText.text = "";
         // Hide dealer score
@@ -75,6 +77,14 @@ public class BlackjackManager : MonoBehaviour
         // Get the text component of the stand button, "Stand State"
         TMP_Text buttonText = standButton.GetComponentInChildren<TMP_Text>();
         buttonText.SetText("Stand");
+        // Check for 21s on the first round, lets Dealer take a hit to see if they tie
+        if (playerScript.handValue > 20)
+        {
+            HitDealer();
+            RoundOver();
+        }
+        // Checks if Dealer hits 21 on initial dealing
+        else if (dealerScript.handValue > 20) RoundOver();
 
     }
 
@@ -167,11 +177,25 @@ public class BlackjackManager : MonoBehaviour
     private void PlayerWinsRound()
     {
         // Set the dealer sprite based on the number of rounds won
-        if (roundsWon < dealerSprites.Length)
+        // -2 negates the first and last sprites
+        if (roundsWon < dealerSprites.Length - 2)
         {
             roundsWon++;
             SpriteRenderer dealerSpriteRenderer = dealerAvatar.GetComponent<SpriteRenderer>();
             dealerSpriteRenderer.sprite = dealerSprites[roundsWon];
+        }
+        // If this is the winning final round, print ending message
+        else if( roundsWon == dealerSprites.Length - 2)
+        {
+            roundsWon++;
+            SpriteRenderer dealerSpriteRenderer = dealerAvatar.GetComponent<SpriteRenderer>();
+            dealerSpriteRenderer.sprite = dealerSprites[roundsWon];
+            mainText.text = "You've Finished the Game!";
+        }
+        // Does nothing right now, just continues to count rounds won after winning
+        else
+        {
+            roundsWon++;
         }
     }
 }
