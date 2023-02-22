@@ -30,6 +30,12 @@ public class BlackjackManager : MonoBehaviour
     public int roundsWon = 0;
     public GameObject dealerAvatar;
 
+    //Audio Set up
+    public AudioSource audioSource;
+    public AudioClip dealSound;
+    public AudioClip dealerRevealSound;
+    public AudioClip roundWonSound;
+    public AudioClip roundLostSound;
 
 
     // Start is called before the first frame update
@@ -52,6 +58,8 @@ public class BlackjackManager : MonoBehaviour
 
     private void DealClicked()
     {
+        audioSource.PlayOneShot(dealSound);
+
         // Reset Round
         playerScript.ResetHand();
         dealerScript.ResetHand();
@@ -136,16 +144,19 @@ public class BlackjackManager : MonoBehaviour
         if (playerBust && dealerBust)
         {
             mainText.text = "All Bust: Bets returned";
+            audioSource.PlayOneShot(roundLostSound);
         }
         // if player busts, dealer didnt, or if dealer has more points, dealer wins
         else if (playerBust || (!dealerBust && dealerScript.handValue > playerScript.handValue))
         {
             mainText.text = "Dealer wins!";
+            audioSource.PlayOneShot(roundLostSound);
         }
         // if dealer busts, player didnt, or player has more points, player wins
         else if (dealerBust || playerScript.handValue > dealerScript.handValue)
         {
             mainText.text = "You win!";
+            audioSource.PlayOneShot(roundWonSound);
             PlayerWinsRound();
             
         }
@@ -153,6 +164,7 @@ public class BlackjackManager : MonoBehaviour
         else if (playerScript.handValue == dealerScript.handValue)
         {
             mainText.text = "You tied with the Dealer, Dealer Wins";
+            audioSource.PlayOneShot(roundLostSound);
         }
         // This is a failsafe incase a logic flow was missed
         else
@@ -191,6 +203,7 @@ public class BlackjackManager : MonoBehaviour
             SpriteRenderer dealerSpriteRenderer = dealerAvatar.GetComponent<SpriteRenderer>();
             dealerSpriteRenderer.sprite = dealerSprites[roundsWon];
             mainText.text = "You've Finished the Game!";
+            audioSource.PlayOneShot(dealerRevealSound);
         }
         // Does nothing right now, just continues to count rounds won after winning
         else

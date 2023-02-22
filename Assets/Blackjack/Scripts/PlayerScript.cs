@@ -16,11 +16,16 @@ public class PlayerScript : MonoBehaviour
     public int cardIndex = 0;
     // Tracks if this hand has Aces, and stores the assosiated card script
     List<CardScript> aceList = new List<CardScript>();
+    // Setup for sound effects
+    public AudioSource audioSource;
+    public AudioClip getCardSound;
 
     // Add a card to the player/dealer's hand
     // Returns the new value of the hand it was placed into
     public int GetCard()
     {
+        audioSource.PlayOneShot(getCardSound);
+
         // Debug.Log("Hand Size " + hand.Length);
         int cardValue = deckScript.DealCard(hand[cardIndex].GetComponent<CardScript>());
         Debug.Log("Card Value " + cardValue);
