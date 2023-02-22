@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class DeckScript : MonoBehaviour
 {
+    // Array of Card Sprites. [0] is back of card image. 1-13 if first suit and so on
     public Sprite[] cardSprites;
+    // Arrary containing values for cards. Indexs' are paralled to cardSprites[]
     int[] cardValues = new int[53];
+    // This represents the top of deck, as cards are drawn, the index moves through the deck.
     int currentIndex = 0;
 
 
@@ -16,11 +19,11 @@ public class DeckScript : MonoBehaviour
         GetCardValues();
     }
 
-    //
+    // Creates an array "cardValues" that parallels the data representation of cardSprites[]
     void GetCardValues()
     {
         int num = 0;
-        // Loop to assign vlaues to the cards
+        // Loop to assign values to the cards, in an array called cardValues[]
         for (int i = 0; i < cardSprites.Length; i++)
         {
             num = i;

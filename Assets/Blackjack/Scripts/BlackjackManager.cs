@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System;
-using UnityEditor.Experimental.GraphView;
+
 
 public class BlackjackManager : MonoBehaviour
 {
@@ -13,26 +13,32 @@ public class BlackjackManager : MonoBehaviour
     public Button hitButton;
     public Button standButton;
     public TMP_Text standButtonText;
-
-    // Tracks if stand has been clicked twice
+    // Tracks if stand has been clicked// 0 = stand state, 1 = call state
     private int standClicks = 0;
-
     // Output for playerScore & Dealer Score
     public TMP_Text playerScoreText;
     public TMP_Text dealerScoreText;
     public TMP_Text mainText;
-
-
     // Access the player and dealer's script
     public PlayerScript playerScript;
     public PlayerScript dealerScript;
-
+    // Hides Dealers' first card from player view
     public GameObject hideCard;
+    // Array of Dealers' Photos
+    public Sprite[] dealerSprites;
+    // Index for Rounds won, and index for dealerSprites[]
+    public int roundsWon = 0;
+    public GameObject dealerAvatar;
+
 
 
     // Start is called before the first frame update
     void Start()
     {
+        // Hide extra cards on start
+        playerScript.ResetHand();
+        dealerScript.ResetHand();
+
         // Add on click listeners to the buttons
         // Hide Hit and Set 
         dealButton.onClick.AddListener(() => DealClicked());
@@ -48,7 +54,6 @@ public class BlackjackManager : MonoBehaviour
         // Reset Round
         playerScript.ResetHand();
         dealerScript.ResetHand();
-        
         // Clear mainText
         mainText.text = "";
         // Hide dealer score
@@ -67,11 +72,12 @@ public class BlackjackManager : MonoBehaviour
         dealButton.gameObject.SetActive(false);
         standButton.gameObject.SetActive(true);
         hitButton.gameObject.SetActive(true);
-        // Get the text component of the stand button
+        // Get the text component of the stand button, "Stand State"
         TMP_Text buttonText = standButton.GetComponentInChildren<TMP_Text>();
         buttonText.SetText("Stand");
 
     }
+
 
     private void HitClicked()
     {
@@ -84,6 +90,8 @@ public class BlackjackManager : MonoBehaviour
         }
     }
 
+    // If stand has not been clicked this round, enter "call" state, call HitDealer()
+    // If in call state, End round (user clicks call)
     private void StandClicked()
     {
         standClicks++;
@@ -92,6 +100,7 @@ public class BlackjackManager : MonoBehaviour
         standButtonText.text = "Call";
     }
 
+    // Checks if Daeler wants to take a hit or stand, when the player Stands
     private void HitDealer()
     {
         while (dealerScript.handValue < 16 && dealerScript.cardIndex < 10)
@@ -127,12 +136,15 @@ public class BlackjackManager : MonoBehaviour
         else if (dealerBust || playerScript.handValue > dealerScript.handValue)
         {
             mainText.text = "You win!";
+            PlayerWinsRound();
+            
         }
         //Check for tie
         else if (playerScript.handValue == dealerScript.handValue)
         {
-            mainText.text = "You tied with the Dealer";
+            mainText.text = "You tied with the Dealer, Dealer Wins";
         }
+        // This is a failsafe incase a logic flow was missed
         else
         {
             roundOver = false;
@@ -150,12 +162,16 @@ public class BlackjackManager : MonoBehaviour
             hideCard.GetComponent<Renderer>().enabled = false;
             standClicks = 0;
         }
-
     }
 
-    // Update is called once per frame
-    void Update()
+    private void PlayerWinsRound()
     {
-        
+        // Set the dealer sprite based on the number of rounds won
+        if (roundsWon < dealerSprites.Length)
+        {
+            roundsWon++;
+            SpriteRenderer dealerSpriteRenderer = dealerAvatar.GetComponent<SpriteRenderer>();
+            dealerSpriteRenderer.sprite = dealerSprites[roundsWon];
+        }
     }
 }

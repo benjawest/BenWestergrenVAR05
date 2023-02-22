@@ -14,10 +14,11 @@ public class PlayerScript : MonoBehaviour
     public GameObject[] hand;
     // Index of next card, depending on how many cards are turned over
     public int cardIndex = 0;
-    // Tracks which aces are set as high or low
+    // Tracks if this hand has Aces, and stores the assosiated card script
     List<CardScript> aceList = new List<CardScript>();
 
     // Add a card to the player/dealer's hand
+    // Returns the new value of the hand it was placed into
     public int GetCard()
     {
         // Debug.Log("Hand Size " + hand.Length);
@@ -41,13 +42,13 @@ public class PlayerScript : MonoBehaviour
     }
 
     // Search for needed ace conversions, 1 to 11 or vice versa
+    // Only checks aces in current hand for selected player
     public void AceCheck()
     {
         // Finds all aces in Conversion list (aceList)
         foreach (CardScript ace in aceList)
         {
             // Decide if Ace should be used as a 1 or 11 for calucating Scores
-
             // If ace is set as low, check if setting it as high breaks 21. If ace high breaks 21, set ace low
             if (handValue + 10 < 22 && ace.GetValueOfCard() == 1)
             {
