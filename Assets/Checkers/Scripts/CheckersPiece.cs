@@ -7,6 +7,9 @@ public class CheckersPiece : MonoBehaviour
 {
     //reference to CheckersGame script
     private CheckersGame checkersGame;
+    // Booleans to track state
+    public bool isKing;
+    public bool isWhite;
 
     void Start()
     {
@@ -29,9 +32,9 @@ public class CheckersPiece : MonoBehaviour
         transform.position = new Vector3(x, 0, y);
     }
 
-    public bool isKing;
-    public bool isWhite;
+   
 
+    // Array of diagonal local coordinates (valid moves)
     private Vector2Int[] directions = new Vector2Int[]
     {
             new Vector2Int(-1, 1),
@@ -40,6 +43,8 @@ public class CheckersPiece : MonoBehaviour
             new Vector2Int(1, -1)
     };
 
+    
+    // Returns a list of Vector2Ints that are valid for moving
     public List<Vector2Int> GetValidMoves(int[,] board)
     {
         List<Vector2Int> validMoves = new List<Vector2Int>();
