@@ -27,4 +27,5 @@ public class Tile : MonoBehaviour
             _renderer.material.color = defaultColor;
         }
     }
+
 }

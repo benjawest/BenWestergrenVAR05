@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Linq;
+using TMPro;
 
 public class CheckersGame : MonoBehaviour
 {
@@ -12,10 +14,16 @@ public class CheckersGame : MonoBehaviour
     public Material PlayerAMaterial;
     // material for red pawns
     public Material PlayerBMaterial;
-    
+    // UI
+    public TMP_Text playerScoreA_TMP; public TMP_Text playerScoreB_TMP;
+    public TMP_Text playerTurn;
+
     // Board Dimensions
     int ROWS = 8;
     int COLUMNS = 8;
+    // player scores
+    int playerScoreA = 0, playerScoreB = 0;
+    bool whiteTurn = true;
    
     // Use CheckersPiece scripts (key)  to access their positions (entry)
     private Dictionary<CheckersPiece, Vector2Int> piecePositions;
@@ -26,6 +34,8 @@ public class CheckersGame : MonoBehaviour
     Tile[,] tiles = new Tile[8, 8];
     // 2d array to display where pieces are on the board --- Deprecate, use pecePositions instead ---
     public int[,] board;
+    public bool GameOver = false;
+
 
 
     private void Awake()
@@ -33,13 +43,9 @@ public class CheckersGame : MonoBehaviour
         SetupPawns();
         // PrintBoard(board);
         InstantiateBoard();
-    }
-
-    // not 100% what this does, never gets called -- Deprecate
-    public void BoardManager(int[,] board)
-    {
-        this.board = board;
-        piecePositions = new Dictionary<CheckersPiece, Vector2Int>();
+        
+        // Debugging contents of Piece Positions
+        Debug.Log("Piece Positions: " + string.Join(", ", piecePositions.Select(kv => kv.Key.name + ": " + kv.Value.ToString()).ToArray()));
     }
 
     // Instantiates tiles for the board
@@ -107,8 +113,7 @@ public class CheckersGame : MonoBehaviour
                     pawn.x = j;
                     pawn.y = i;
                     // Update board for playerA positions
-                    board[i, j] = 1; // deprecate
-                    piecePositions.Add(pawn, new Vector2Int(i, j)); // Add pawn to dictionary
+                    piecePositions.Add(pawn, new Vector2Int(j, i)); // Add pawn to dictionary
                 }
             }
         }
@@ -131,8 +136,7 @@ public class CheckersGame : MonoBehaviour
                     pawn.x = j;
                     pawn.y = i;
                     //Update board for playerB positions
-                    board[i, j] = 2; // deprecate
-                    piecePositions.Add(pawn, new Vector2Int(i, j)); // Add pawn to dictionary
+                    piecePositions.Add(pawn, new Vector2Int(j, i)); // Add pawn to dictionary
                 }
             }
         }
@@ -159,58 +163,72 @@ public class CheckersGame : MonoBehaviour
         return position.x >= 0 && position.x < board.GetLength(0) && position.y >= 0 && position.y < board.GetLength(1);
     }
 
-    // Debug to check the contents of board[,] in console - Depricate
-    public void PrintBoard(int[,] board)
+    
+    private void Update()
     {
-        string output = "";
-        for (int i = 0; i < board.GetLength(0); i++)
+        while (!GameOver)
         {
-            for (int j = 0; j < board.GetLength(1); j++)
-            {
-                output += board[i, j] + " ";
-            }
-            output += "\n";
+            WasMousePressed();
         }
-        Debug.Log(output);
+        
+        
     }
 
 
-
-    private void Update()
+    public void WasMousePressed()
     {
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
             // Raycasting!
-            // Ray ray = new Ray(transform.position, transform.forward);
             Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
 
             bool didWeHitAnything = Physics.Raycast(ray, out RaycastHit hit);
 
             if (didWeHitAnything == true)
             {
-                // Are we placing a piece?
+                // If a piece has already been selected -> Move Selection State
                 if (selectedPiece != null)
                 {
-                    // What tile did we hit on the board?             
+                  
+                    // Adjust raycast hit to whole number          
                     int xHit = Mathf.RoundToInt(hit.point.x);
                     int yHit = Mathf.RoundToInt(hit.point.z);
 
                     Debug.Log($"We hit point: {hit.point} resulting in {xHit}, {yHit}");
 
-                    selectedPiece.SetPosition(xHit, yHit);
-
-                    selectedPiece = null;
+                    // Check if the selected piece can move to the selected tile
+                    List<Vector2Int> validMoves = GetValidMoves(selectedPiece);
+                    Vector2Int destination = new Vector2Int(xHit, yHit);
+                    if (validMoves.Contains(destination))
+                    {
+                        // Move Piece, update piecePositions and script components
+                        MovePiece(selectedPiece, destination);
+                        ClearHighlights();
+                        selectedPiece = null;
+                    }
+                    else
+                    {
+                        ClearHighlights();
+                        Debug.Log($"Invalid move. {selectedPiece.name} cannot move to {destination}");
+                        selectedPiece = null;
+                    }
                 }
-                // ...or are we selecting a piece?
+                // No piece has already been selected, so set new selcetion as selectedPiece
                 else
                 {
                     selectedPiece = hit.collider.gameObject.GetComponent<CheckersPiece>();
-
+                   
                     if (selectedPiece != null)
                     {
-                        HighlightValidMoves(selectedPiece);
-
-                        Debug.Log($"selected piece at {selectedPiece.x}, {selectedPiece.y}");
+                        if ((selectedPiece.isWhite && whiteTurn) || (!selectedPiece.isWhite && !whiteTurn))
+                        {
+                            HighlightValidMoves(selectedPiece);
+                            Debug.Log($"selected piece at {selectedPiece.x}, {selectedPiece.y}");
+                        }
+                        else
+                        {
+                            selectedPiece = null;
+                        }
                     }
                 }
 
@@ -222,13 +240,101 @@ public class CheckersGame : MonoBehaviour
     }
 
 
+    // Move Piece to new location. Also handles capturing and destroying opponesnts piece, if the move is a capture move
+    public void MovePiece(CheckersPiece piece, Vector2Int targetPosition)
+    {
+
+        Vector2Int currentPosition = piecePositions[piece];
+        int dx = targetPosition.x - currentPosition.x;
+        int dy = targetPosition.y - currentPosition.y;
+
+        // Checks if move is two tiles away, treast move as capture move.
+        if (Mathf.Abs(dx) == 2 && Mathf.Abs(dy) == 2)
+        {
+            // Capture move
+            int captureX = currentPosition.x + (dx / 2);
+            int captureY = currentPosition.y + (dy / 2);
+            Vector2Int capturePosition = new Vector2Int(captureX, captureY);
+
+            CheckersPiece capturedPiece = piecePositions.First(x => x.Value == capturePosition).Key;
+            piecePositions.Remove(capturedPiece);
+            Destroy(capturedPiece.gameObject);
+
+            // Increases current players score for capture.
+            if (whiteTurn)
+            {
+                playerScoreA++;
+                playerScoreA_TMP.text = playerScoreA.ToString();
+            }
+            else
+            {
+                playerScoreB++;
+                playerScoreB_TMP.text = playerScoreB.ToString();
+            }
+          
+            //// Check for multi-capture
+            //List<Vector2Int> captureMoves = GetValidMoves(piece);
+            //if (captureMoves.Count > 0)
+            //{
+            //    // Highlight valid capture moves
+            //    selectedPiece = piece;
+            //    validMoves = captureMoves;
+            //    HighlightCells(validMoves);
+            //    return;
+            //}
+        }
+
+        // Move piece
+        piecePositions[piece] = targetPosition;
+        piece.SetPosition(targetPosition.x, targetPosition.y);
+
+        // Check for promotion
+        if ((piece.isWhite && targetPosition.y == ROWS - 1) || (!piece.isWhite && targetPosition.y == 0))
+        {
+            piece.isKing = true;
+        }
+
+        //// Check for game over
+        //if (IsGameOver())
+        //{
+        //    gameOver = true;
+        //    Debug.Log("Game Over");
+        //}
+
+        // Switch player turn
+        selectedPiece = null;
+        whiteTurn = !whiteTurn;
+        if (whiteTurn)
+        {
+            playerTurn.text = "White";
+        }
+        else
+        {
+            playerTurn.text = "Red";
+        }
+    }
+
+
+
+    public void ClearHighlights()
+    {
+        // Loop through all the tiles in the 2D array and turn off the highlights
+        for (int x = 0; x < ROWS; x++)
+        {
+            for (int y = 0; y < COLUMNS; y++)
+            {
+                tiles[x, y].SetHighlight(false);
+            }
+        }
+    }
+
     // Highlight on the board which tiles are valid for moves
     void HighlightValidMoves(CheckersPiece selectedPawn)
     {
-        List<Vector2Int> validMoves = selectedPawn.GetValidMoves(board);
+        List<Vector2Int> validMoves = GetValidMoves(selectedPawn);
         foreach (Vector2Int move in validMoves)
         {
-            // Debub line, are there any entries in validMoves?
+            // Debug line, print all entries in ValidMoves
             Debug.Log($"Entries in validMoves: {validMoves.Count}. Contents: {string.Join(", ", validMoves)}");
             // Get the tile at the position of the valid move
             Tile tile = GetTileAtPosition(move);
@@ -236,6 +342,161 @@ public class CheckersGame : MonoBehaviour
             tile.GetComponent<Renderer>().material.color = Color.yellow;
         }
     }
+
+
+    public List<Vector2Int> GetValidMoves(CheckersPiece piece)
+    {
+        Vector2Int currentPosition = piecePositions[piece];
+        int direction = piece.isWhite ? 1 : -1;
+        List<Vector2Int> moves = new List<Vector2Int>();
+        List<Vector2Int> captureMoves = new List<Vector2Int>();
+        Vector2Int[] captureOffsets;
+
+
+
+        // Check for capture moves
+        if (piece.isKing)
+        {
+            // If King, check in all directions
+           captureOffsets = new Vector2Int[] { new Vector2Int(-1, direction), new Vector2Int(1, direction),
+                                                     new Vector2Int(-1, -direction), new Vector2Int(1, -direction)};
+        }
+        else
+        {
+            // Else only check in normal "direction"
+           captureOffsets = new Vector2Int[] { new Vector2Int(-1, direction), new Vector2Int(1, direction),};
+        }
+        // Check all directions from captureOffsets
+        foreach (Vector2Int offset in captureOffsets)
+        {
+            Vector2Int capturePos = currentPosition + offset;
+            
+            Vector2Int captureTarget = currentPosition + (offset * 2);
+            if (IsValidCapture(currentPosition, capturePos, captureTarget, piece))
+            {
+                moves.Add(captureTarget);
+            }
+        }
+
+        // Check for regular moves
+        Vector2Int forwardLeft = currentPosition + new Vector2Int(-1, direction);
+        if (IsValidMove(currentPosition, forwardLeft, piece))
+        {
+            moves.Add(forwardLeft);
+        }
+
+        Vector2Int forwardRight = currentPosition + new Vector2Int(1, direction);
+        if (IsValidMove(currentPosition, forwardRight, piece))
+        {
+            moves.Add(forwardRight);
+        }
+
+        if (piece.isKing)
+        {
+            Vector2Int backwardLeft = currentPosition + new Vector2Int(-1, -direction);
+            if (IsValidMove(currentPosition, backwardLeft, piece))
+            {
+                moves.Add(backwardLeft);
+            }
+
+            Vector2Int backwardRight = currentPosition + new Vector2Int(1, -direction);
+            if (IsValidMove(currentPosition, backwardRight, piece))
+            {
+                moves.Add(backwardRight);
+            }
+        }
+
+        if (captureMoves.Count > 0)
+        {
+            return captureMoves;
+        }
+        else
+        {
+            return moves;
+        }
+    }
+
+    private bool IsValidMove(Vector2Int current, Vector2Int target, CheckersPiece piece)
+    {
+        if (target.x < 0 || target.x >= ROWS || target.y < 0 || target.y >= COLUMNS)
+        {
+            return false;
+        }
+
+        if (piecePositions.ContainsValue(target))
+        {
+            return false;
+        }
+
+        int dx = target.x - current.x;
+        int dy = target.y - current.y;
+
+        if (Mathf.Abs(dx) != 1 || Mathf.Abs(dy) != 1)
+        {
+            return false;
+        }
+
+        if (Mathf.Abs(dx) == 2 && Mathf.Abs(dy) == 2)
+        {
+            int captureX = current.x + (dx / 2);
+            int captureY = current.y + (dy / 2);
+            Vector2Int capturePosition = new Vector2Int(captureX, captureY);
+
+            if (!piecePositions.ContainsValue(capturePosition))
+            {
+                return false;
+            }
+            CheckersPiece capturedPiece = piecePositions.First(x => x.Value == capturePosition).Key;
+
+            if (capturedPiece.isWhite == piece.isWhite)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    bool IsValidCapture(Vector2Int currentPosition, Vector2Int capturePos, Vector2Int captureTarget, CheckersPiece piece)
+    {
+        // Check that the capture target is within the bounds of the board
+        if (captureTarget.x < 0 || captureTarget.x >= COLUMNS || captureTarget.y < 0 || captureTarget.y >= ROWS)
+        {
+            return false;
+        }
+
+        // Check that there is an opponent piece to capture
+        if (!piecePositions.ContainsValue(capturePos))
+        {
+            return false;
+        }
+
+        // Check that the capture target is not occupied by another piece
+        if (piecePositions.ContainsValue(captureTarget))
+        {
+            return false;
+        }
+
+        // Check that the captured piece belongs to the opponent
+        CheckersPiece capturedPiece = piecePositions.First(x => x.Value == capturePos).Key;
+        if (capturedPiece.isWhite == piece.isWhite)
+        {
+            return false;
+        }
+
+        // Check that the capture is diagonal
+        int dx = captureTarget.x - currentPosition.x;
+        int dy = captureTarget.y - currentPosition.y;
+        if (Mathf.Abs(dx) != 2 || Mathf.Abs(dy) != 2)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+
+
 
     // Returns the Tile script for the tile at position
     Tile GetTileAtPosition(Vector2Int position)
