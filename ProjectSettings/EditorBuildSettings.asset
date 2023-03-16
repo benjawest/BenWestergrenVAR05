@@ -17,4 +17,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Bolf/Scenes/Scene4.unity
     guid: 79a7999b543f3ea44b81bb45c00e7579
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: d091060c3388050419e59a8864798d5d, type: 2}
+    com.unity.xr.openxr.settings4: {fileID: 11400000, guid: 9234bcd1df0afa04292664393b844f0a, type: 2}
