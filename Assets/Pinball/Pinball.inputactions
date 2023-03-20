@@ -1,0 +1,114 @@
+{
+    "name": "Pinball",
+    "maps": [
+        {
+            "name": "Default",
+            "id": "6c02b9df-4ee3-4df4-b0fd-3997afa6234d",
+            "actions": [
+                {
+                    "name": "LFlipper",
+                    "type": "Value",
+                    "id": "89ab98da-77e3-4950-bc7f-9f1f03a9314d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "RFlipper",
+                    "type": "Value",
+                    "id": "34095f93-f875-4463-864b-4349cef81a19",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "b270f028-a9b4-4ac6-bb79-02edda748ea4",
+                    "path": "<Keyboard>/z",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "K&M",
+                    "action": "LFlipper",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "99085299-0805-466d-816d-b01ff5b9f0f7",
+                    "path": "<OculusTouchController>{LeftHand}/triggerPressed",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "VR",
+                    "action": "LFlipper",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "52f4435b-b87b-4fbc-9b2f-ed34cd89498a",
+                    "path": "<Keyboard>/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "K&M",
+                    "action": "RFlipper",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5423ec89-bc23-498a-a978-371d10c158db",
+                    "path": "<OculusTouchController>{RightHand}/triggerPressed",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "VR",
+                    "action": "RFlipper",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "K&M",
+            "bindingGroup": "K&M",
+            "devices": [
+                {
+                    "devicePath": "<Mouse>",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        },
+        {
+            "name": "VR",
+            "bindingGroup": "VR",
+            "devices": [
+                {
+                    "devicePath": "<OpenXRHmd>",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<OculusTouchController>{LeftHand}",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<OculusTouchController>{RightHand}",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
+}
