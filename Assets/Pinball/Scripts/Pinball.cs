@@ -44,6 +44,15 @@ public partial class @Pinball : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Plunger"",
+                    ""type"": ""Value"",
+                    ""id"": ""1d3aead7-e9f9-4a5f-9eff-17b897842054"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -88,6 +97,28 @@ public partial class @Pinball : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""VR"",
                     ""action"": ""RFlipper"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e46ca16f-ff43-4236-8cb2-9a83cc89ae9b"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""K&M"",
+                    ""action"": ""Plunger"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""20d8e156-5727-4819-9a4a-008efcabe9ed"",
+                    ""path"": ""<OculusTouchController>/primaryButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""VR"",
+                    ""action"": ""Plunger"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -138,6 +169,7 @@ public partial class @Pinball : IInputActionCollection2, IDisposable
         m_Default = asset.FindActionMap("Default", throwIfNotFound: true);
         m_Default_LFlipper = m_Default.FindAction("LFlipper", throwIfNotFound: true);
         m_Default_RFlipper = m_Default.FindAction("RFlipper", throwIfNotFound: true);
+        m_Default_Plunger = m_Default.FindAction("Plunger", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -199,12 +231,14 @@ public partial class @Pinball : IInputActionCollection2, IDisposable
     private IDefaultActions m_DefaultActionsCallbackInterface;
     private readonly InputAction m_Default_LFlipper;
     private readonly InputAction m_Default_RFlipper;
+    private readonly InputAction m_Default_Plunger;
     public struct DefaultActions
     {
         private @Pinball m_Wrapper;
         public DefaultActions(@Pinball wrapper) { m_Wrapper = wrapper; }
         public InputAction @LFlipper => m_Wrapper.m_Default_LFlipper;
         public InputAction @RFlipper => m_Wrapper.m_Default_RFlipper;
+        public InputAction @Plunger => m_Wrapper.m_Default_Plunger;
         public InputActionMap Get() { return m_Wrapper.m_Default; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -220,6 +254,9 @@ public partial class @Pinball : IInputActionCollection2, IDisposable
                 @RFlipper.started -= m_Wrapper.m_DefaultActionsCallbackInterface.OnRFlipper;
                 @RFlipper.performed -= m_Wrapper.m_DefaultActionsCallbackInterface.OnRFlipper;
                 @RFlipper.canceled -= m_Wrapper.m_DefaultActionsCallbackInterface.OnRFlipper;
+                @Plunger.started -= m_Wrapper.m_DefaultActionsCallbackInterface.OnPlunger;
+                @Plunger.performed -= m_Wrapper.m_DefaultActionsCallbackInterface.OnPlunger;
+                @Plunger.canceled -= m_Wrapper.m_DefaultActionsCallbackInterface.OnPlunger;
             }
             m_Wrapper.m_DefaultActionsCallbackInterface = instance;
             if (instance != null)
@@ -230,6 +267,9 @@ public partial class @Pinball : IInputActionCollection2, IDisposable
                 @RFlipper.started += instance.OnRFlipper;
                 @RFlipper.performed += instance.OnRFlipper;
                 @RFlipper.canceled += instance.OnRFlipper;
+                @Plunger.started += instance.OnPlunger;
+                @Plunger.performed += instance.OnPlunger;
+                @Plunger.canceled += instance.OnPlunger;
             }
         }
     }
@@ -256,5 +296,6 @@ public partial class @Pinball : IInputActionCollection2, IDisposable
     {
         void OnLFlipper(InputAction.CallbackContext context);
         void OnRFlipper(InputAction.CallbackContext context);
+        void OnPlunger(InputAction.CallbackContext context);
     }
 }
