@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PinballManager : MonoBehaviour
 {
+    public GameObject ballPrefab;
+    public Transform ballSpawn;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -14,5 +17,10 @@ public class PinballManager : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void SpawnBall()
+    {
+        Instantiate(ballPrefab, ballSpawn.position, ballSpawn.rotation);
     }
 }
