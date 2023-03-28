@@ -10,21 +10,27 @@ public class PlungerScript : MonoBehaviour
     public float minPower = 0f;
     public float maxPower = 100f;
     public float powerIncrement = 10f;
-    public Slider powerSlider;
+    //public Slider powerSlider;
     private List<Rigidbody> ballList;
     // Input from Plunger Action Input
     public float plungerValue;
     public bool ballReady;
 
+    public GameObject PowerMeterCanvas;
+
     public InputActionAsset actionAsset;
     public string actionName;
     private InputAction plungerAction;
 
+    public RectTransform powerIndicator;
+    public float minPosY = -0.4f;
+    public float maxPosY = 0.4f;
+
+
     // Start is called before the first frame update
     void Start()
     {
-        powerSlider.minValue = 0f;
-        powerSlider.maxValue = maxPower;
+        PowerMeterCanvas.SetActive(false); // Hide PowerMeter on start
         ballList = new List<Rigidbody>();
 
         // Get a reference to the flipper action
@@ -46,16 +52,18 @@ public class PlungerScript : MonoBehaviour
         // Show power slider when ball is ready to be fired.
         if (ballReady)
         {
-            powerSlider.gameObject.SetActive(true);
+            PowerMeterCanvas.SetActive(true);
         }
         else
         {
-            powerSlider.gameObject.SetActive(false);
+            PowerMeterCanvas.SetActive(false);
         }
-        
-        powerSlider.value = power;
+
+       
+
+
         // If there are any balls in the PlungerTrigger
-        if(ballList.Count > 0)
+        if (ballList.Count > 0)
         {
             ballReady = true;
            
@@ -65,6 +73,8 @@ public class PlungerScript : MonoBehaviour
             {
                 power += Time.deltaTime * powerIncrement;
                 power = Mathf.Clamp(power, minPower, maxPower);
+                //Visually adjust power slider indicator
+                UpdatePowerIndicator(power, maxPower);
             }
             // If plunger was released, apply force to balls in trigger zone
             else if (plungerValue == 0f && power > minPower)
@@ -75,6 +85,7 @@ public class PlungerScript : MonoBehaviour
                     ball.AddForce(transform.forward * power, ForceMode.Impulse);
                 }
                 power = minPower;
+                UpdatePowerIndicator(power, maxPower);
 
             }
         }
@@ -83,7 +94,15 @@ public class PlungerScript : MonoBehaviour
         {
             ballReady = false;
             power = minPower;
+            UpdatePowerIndicator(power, maxPower);
         }
+    }
+
+
+    public void UpdatePowerIndicator(float power, float maxPower)
+    {
+        float posY = Mathf.Lerp(minPosY, maxPosY, power / maxPower);
+        powerIndicator.anchoredPosition = new Vector2(powerIndicator.anchoredPosition.x, posY);
     }
 
     private void OnTriggerEnter(Collider other)

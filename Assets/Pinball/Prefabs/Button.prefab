@@ -128,7 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a1643c19e256a44aa31a7e639bc710e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pushHeight: 0.1
+  pushHeight: 0.05
   returnSpeed: 1
   onButtonPressed:
     m_PersistentCalls:
