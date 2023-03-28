@@ -6,22 +6,22 @@ using UnityEngine.UI;
 
 public class PlungerScript : MonoBehaviour
 {
-    public float power;
+    // Current Power when plunger input is released
+    public float power; 
     public float minPower = 0f;
     public float maxPower = 100f;
     public float powerIncrement = 10f;
-    //public Slider powerSlider;
     private List<Rigidbody> ballList;
     // Input from Plunger Action Input
     public float plungerValue;
-    public bool ballReady;
-
-    public GameObject PowerMeterCanvas;
-
     public InputActionAsset actionAsset;
-    public string actionName;
     private InputAction plungerAction;
+    public string actionName;
 
+    public bool ballReady;
+    
+    // Power Meter
+    public GameObject PowerMeterCanvas;
     public RectTransform powerIndicator;
     public float minPosY = -0.4f;
     public float maxPosY = 0.4f;
@@ -59,15 +59,12 @@ public class PlungerScript : MonoBehaviour
             PowerMeterCanvas.SetActive(false);
         }
 
-       
-
-
         // If there are any balls in the PlungerTrigger
         if (ballList.Count > 0)
         {
             ballReady = true;
            
-            // Check if the input action plungerAction has value above 0
+            // Check if the input action plungerAction has value
             plungerValue = plungerAction.ReadValue<float>();
             if (plungerValue > 0f)
             {
@@ -86,7 +83,6 @@ public class PlungerScript : MonoBehaviour
                 }
                 power = minPower;
                 UpdatePowerIndicator(power, maxPower);
-
             }
         }
         // There are no balls in trigger zone
@@ -97,7 +93,6 @@ public class PlungerScript : MonoBehaviour
             UpdatePowerIndicator(power, maxPower);
         }
     }
-
 
     public void UpdatePowerIndicator(float power, float maxPower)
     {

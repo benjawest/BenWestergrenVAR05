@@ -5,8 +5,9 @@ using UnityEngine.Events;
 
 public class ButtonScript : MonoBehaviour
 {
-    public float pushHeight = 0.1f;
-    public float returnSpeed = 1.0f;
+    
+    public float pushHeight = 0.1f; // distance threshold to execute function
+    public float returnSpeed = 1.0f; 
     public UnityEvent onButtonPressed;
 
     private Vector3 initialPosition;
@@ -29,6 +30,7 @@ public class ButtonScript : MonoBehaviour
             onButtonPressed.Invoke();
             StartCoroutine(ReturnButton());
         }
+       // Clamp button from moving above initial height.
         else if (transform.position.y > initialPosition.y)
         {
             // If button has been moved higher than initial position, move it back down

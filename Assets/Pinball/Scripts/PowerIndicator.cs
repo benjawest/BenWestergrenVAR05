@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+// 99% sure this has been depricated....
+
 public class PowerIndicator : MonoBehaviour
 {
     public RectTransform powerIndicator;

@@ -32,12 +32,6 @@ public class PinballManager : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void SpawnBall()
     {
         Instantiate(ballPrefab, ballSpawn.position, ballSpawn.rotation);
@@ -63,7 +57,6 @@ public class PinballManager : MonoBehaviour
                 }
             }
         }
-
     }
 
     public void TogglePhysics()

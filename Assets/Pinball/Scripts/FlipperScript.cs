@@ -6,8 +6,8 @@ using UnityEngine.InputSystem;
 public class FlipperScript : MonoBehaviour
 {
     public float restPosition = 0f;
-    public float pressedPosition = 45f;
-    public float hitStrength = 10000f;
+    public float pressedPosition = 45f; // Must be inverted maually for right side
+    public float hitStrength = 10000f; 
     public float flipperDamper = 150f;
 
     public HingeJoint hinge;
@@ -36,15 +36,16 @@ public class FlipperScript : MonoBehaviour
 
     void Update()
     {
+        // Assign spring values
         JointSpring spring = new JointSpring();
         spring.spring = hitStrength;
         spring.damper = flipperDamper;
 
-        if (flipperAction.ReadValue<float>() > 0f)
+        if (flipperAction.ReadValue<float>() > 0f) // User presses flipperAction
         {
             spring.targetPosition = pressedPosition;
         }
-        else
+        else // No Input from action
         {
             spring.targetPosition = restPosition;
         }
