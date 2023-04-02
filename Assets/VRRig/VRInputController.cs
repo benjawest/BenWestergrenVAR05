@@ -6,6 +6,7 @@ public class VRInputController : MonoBehaviour
 {
     // Publics are usually prefaced with a capital letter.
     public Vector2 LeftJoystick;
+    public Vector2 RightJoystick;
     public float RightTrigger;
 
     private VRInputActions actions;
@@ -16,6 +17,7 @@ public class VRInputController : MonoBehaviour
     {
         // Set the *length* of the joystick vector to never exceed 1.
         LeftJoystick = Vector3.ClampMagnitude(LeftJoystick, 1);
+        RightJoystick = Vector3.ClampMagnitude(RightJoystick, 1);
         RightTrigger = Mathf.Clamp01(RightTrigger);
     }
 
@@ -35,6 +37,7 @@ public class VRInputController : MonoBehaviour
         if (hmd != null)
         {
             LeftJoystick = actions.Default.LeftJoystick.ReadValue<Vector2>();
+            RightJoystick = actions.Default.RightJoystick.ReadValue<Vector2>();
             RightTrigger = actions.Default.RightTrigger.ReadValue<float>();
         }
     }

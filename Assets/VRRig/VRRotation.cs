@@ -13,8 +13,9 @@ public class VRRotation : MonoBehaviour
     [Header("Snap Turn")]
     [SerializeField] bool isSnapTurn = false;  // Determines if snap turning is enabled.
     [SerializeField] float snapTurnRotation = 45.0f;  // Rotation amount for snap turning.
-    private float currentRotation = 0.0f;  // Current rotation angle for snap turning.
     private bool hasJoystickBeenReleased = true;  // Flag to prevent continuous snap turning.
+
+    private VRInputController input;
 
     private void OnEnable()
     {
@@ -38,14 +39,12 @@ public class VRRotation : MonoBehaviour
             if (direction > 0.5f && hasJoystickBeenReleased)
             {
                 // Snap turn to the right.
-                currentRotation += snapTurnRotation;
                 transform.Rotate(0, snapTurnRotation, 0);
                 hasJoystickBeenReleased = false;
             }
             else if (direction < -0.5f && hasJoystickBeenReleased)
             {
                 // Snap turn to the left.
-                currentRotation -= snapTurnRotation;
                 transform.Rotate(0, -snapTurnRotation, 0);
                 hasJoystickBeenReleased = false;
             }
