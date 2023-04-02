@@ -28,7 +28,7 @@ public class JoystickTranslateLocomotion : MonoBehaviour
 
     private void Update()
     {
-        Vector2 moveInput = input.Joystick;
+        Vector2 moveInput = input.LeftJoystick;
 
         // Convert our moveDirection from *local* space to *world* space.
         Vector3 forward = head.forward;

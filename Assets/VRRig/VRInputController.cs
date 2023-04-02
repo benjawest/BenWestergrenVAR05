@@ -5,7 +5,7 @@ using UnityEngine.InputSystem.XR;
 public class VRInputController : MonoBehaviour
 {
     // Publics are usually prefaced with a capital letter.
-    public Vector2 Joystick;
+    public Vector2 LeftJoystick;
     public float RightTrigger;
 
     private VRInputActions actions;
@@ -15,7 +15,7 @@ public class VRInputController : MonoBehaviour
     private void OnValidate()
     {
         // Set the *length* of the joystick vector to never exceed 1.
-        Joystick = Vector3.ClampMagnitude(Joystick, 1);
+        LeftJoystick = Vector3.ClampMagnitude(LeftJoystick, 1);
         RightTrigger = Mathf.Clamp01(RightTrigger);
     }
 
@@ -34,7 +34,7 @@ public class VRInputController : MonoBehaviour
 
         if (hmd != null)
         {
-            Joystick = actions.Default.Joystick.ReadValue<Vector2>();
+            LeftJoystick = actions.Default.LeftJoystick.ReadValue<Vector2>();
             RightTrigger = actions.Default.RightTrigger.ReadValue<float>();
         }
     }

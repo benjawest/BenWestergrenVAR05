@@ -609,6 +609,7 @@ GameObject:
   - component: {fileID: 1021022515}
   - component: {fileID: 1021022514}
   - component: {fileID: 1021022513}
+  - component: {fileID: 1021022517}
   m_Layer: 0
   m_Name: VR Rig
   m_TagString: Untagged
@@ -642,7 +643,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dc3b8230fa435f4393a0292897086fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Joystick: {x: 0, y: 0}
+  LeftJoystick: {x: 0, y: 0}
   RightTrigger: 0
 --- !u!114 &1021022515
 MonoBehaviour:
@@ -677,6 +678,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1021022517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1021022511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a037c6259613b540a6968c574189ae0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  head: {fileID: 919637270}
+  rightJoystick: {fileID: 3088454459959941467, guid: 9219dfbcd3fcff44b9ec641137f4e6a8, type: 3}
+  rotationSpeed: 90
+  isSnapTurn: 1
+  snapTurnRotation: 45
 --- !u!1001 &1021978924
 PrefabInstance:
   m_ObjectHideFlags: 0
