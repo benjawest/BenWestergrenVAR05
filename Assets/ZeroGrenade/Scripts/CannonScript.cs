@@ -4,9 +4,8 @@ using UnityEngine.InputSystem;
 public class CannonScript : MonoBehaviour
 {
     [SerializeField] private float forceAmount = 1000f;
-    [SerializeField] private float sphereSize = 0.5f;
     [SerializeField] private bool listenForInput = true;
-    [SerializeField] private float grenadeLife = 3f;
+    [SerializeField] private GameObject grenadePrefab;
 
     [SerializeField] private Camera mainCamera;
 
@@ -23,21 +22,14 @@ public class CannonScript : MonoBehaviour
         if (mainCamera != null)
         {
             Vector3 spawnPosition = mainCamera.transform.position + mainCamera.transform.forward * 2f;
-            GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            sphere.transform.position = spawnPosition;
-            sphere.transform.localScale = new Vector3(sphereSize, sphereSize, sphereSize);
+            GameObject grenade = Instantiate(grenadePrefab, spawnPosition, Quaternion.identity);
 
-            Rigidbody rb = sphere.AddComponent<Rigidbody>();
-            sphere.AddComponent<SphereCollider>();
-            rb.AddForce(mainCamera.transform.forward * forceAmount);
-
-            SphereCollider sphereCollider = sphere.GetComponent<SphereCollider>();
-            if (sphereCollider != null)
+            Rigidbody rb = grenade.GetComponent<Rigidbody>();
+            if (rb != null)
             {
-                sphereCollider.radius = sphereSize;
+                rb.AddForce(mainCamera.transform.forward * forceAmount);
             }
 
-            Destroy(sphere, grenadeLife); // Destroy the sphere after grenadeLife seconds
         }
     }
 }
