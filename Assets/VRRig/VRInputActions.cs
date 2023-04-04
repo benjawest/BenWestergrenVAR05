@@ -80,6 +80,15 @@ public partial class @VRInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Trigger"",
+                    ""type"": ""Value"",
+                    ""id"": ""caec04b3-edfd-4ee7-8ac6-83e501dc891e"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -181,6 +190,17 @@ public partial class @VRInputActions : IInputActionCollection2, IDisposable
                     ""action"": ""RightJoystick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""59c28c28-1597-4647-9829-cc390b381e8d"",
+                    ""path"": ""<OculusTouchController>/triggerPressed"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""VR"",
+                    ""action"": ""Trigger"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -233,6 +253,7 @@ public partial class @VRInputActions : IInputActionCollection2, IDisposable
         m_Default_LeftJoystick = m_Default.FindAction("LeftJoystick", throwIfNotFound: true);
         m_Default_RightJoystick = m_Default.FindAction("RightJoystick", throwIfNotFound: true);
         m_Default_RightTrigger = m_Default.FindAction("RightTrigger", throwIfNotFound: true);
+        m_Default_Trigger = m_Default.FindAction("Trigger", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -298,6 +319,7 @@ public partial class @VRInputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Default_LeftJoystick;
     private readonly InputAction m_Default_RightJoystick;
     private readonly InputAction m_Default_RightTrigger;
+    private readonly InputAction m_Default_Trigger;
     public struct DefaultActions
     {
         private @VRInputActions m_Wrapper;
@@ -308,6 +330,7 @@ public partial class @VRInputActions : IInputActionCollection2, IDisposable
         public InputAction @LeftJoystick => m_Wrapper.m_Default_LeftJoystick;
         public InputAction @RightJoystick => m_Wrapper.m_Default_RightJoystick;
         public InputAction @RightTrigger => m_Wrapper.m_Default_RightTrigger;
+        public InputAction @Trigger => m_Wrapper.m_Default_Trigger;
         public InputActionMap Get() { return m_Wrapper.m_Default; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -335,6 +358,9 @@ public partial class @VRInputActions : IInputActionCollection2, IDisposable
                 @RightTrigger.started -= m_Wrapper.m_DefaultActionsCallbackInterface.OnRightTrigger;
                 @RightTrigger.performed -= m_Wrapper.m_DefaultActionsCallbackInterface.OnRightTrigger;
                 @RightTrigger.canceled -= m_Wrapper.m_DefaultActionsCallbackInterface.OnRightTrigger;
+                @Trigger.started -= m_Wrapper.m_DefaultActionsCallbackInterface.OnTrigger;
+                @Trigger.performed -= m_Wrapper.m_DefaultActionsCallbackInterface.OnTrigger;
+                @Trigger.canceled -= m_Wrapper.m_DefaultActionsCallbackInterface.OnTrigger;
             }
             m_Wrapper.m_DefaultActionsCallbackInterface = instance;
             if (instance != null)
@@ -357,6 +383,9 @@ public partial class @VRInputActions : IInputActionCollection2, IDisposable
                 @RightTrigger.started += instance.OnRightTrigger;
                 @RightTrigger.performed += instance.OnRightTrigger;
                 @RightTrigger.canceled += instance.OnRightTrigger;
+                @Trigger.started += instance.OnTrigger;
+                @Trigger.performed += instance.OnTrigger;
+                @Trigger.canceled += instance.OnTrigger;
             }
         }
     }
@@ -387,5 +416,6 @@ public partial class @VRInputActions : IInputActionCollection2, IDisposable
         void OnLeftJoystick(InputAction.CallbackContext context);
         void OnRightJoystick(InputAction.CallbackContext context);
         void OnRightTrigger(InputAction.CallbackContext context);
+        void OnTrigger(InputAction.CallbackContext context);
     }
 }
