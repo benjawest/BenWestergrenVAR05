@@ -4,15 +4,11 @@ using UnityEngine.InputSystem;
 public class CannonScript : MonoBehaviour
 {
     [SerializeField] private float forceAmount = 1000f;
-    [SerializeField] private float sphereRadius = 0.5f;
+    [SerializeField] private float sphereSize = 0.5f;
     [SerializeField] private bool listenForInput = true;
+    [SerializeField] private float grenadeLife = 3f;
 
-    private Camera mainCamera;
-
-    private void Start()
-    {
-        mainCamera = Camera.main;
-    }
+    [SerializeField] private Camera mainCamera;
 
     private void Update()
     {
@@ -24,18 +20,24 @@ public class CannonScript : MonoBehaviour
 
     private void Fire()
     {
-        Vector3 spawnPosition = mainCamera.transform.position + mainCamera.transform.forward * 2f;
-        GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        sphere.transform.position = spawnPosition;
-
-        Rigidbody rb = sphere.AddComponent<Rigidbody>();
-        sphere.AddComponent<SphereCollider>();
-        rb.AddForce(mainCamera.transform.forward * forceAmount);
-
-        SphereCollider sphereCollider = sphere.GetComponent<SphereCollider>();
-        if (sphereCollider != null)
+        if (mainCamera != null)
         {
-            sphereCollider.radius = sphereRadius;
+            Vector3 spawnPosition = mainCamera.transform.position + mainCamera.transform.forward * 2f;
+            GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            sphere.transform.position = spawnPosition;
+            sphere.transform.localScale = new Vector3(sphereSize, sphereSize, sphereSize);
+
+            Rigidbody rb = sphere.AddComponent<Rigidbody>();
+            sphere.AddComponent<SphereCollider>();
+            rb.AddForce(mainCamera.transform.forward * forceAmount);
+
+            SphereCollider sphereCollider = sphere.GetComponent<SphereCollider>();
+            if (sphereCollider != null)
+            {
+                sphereCollider.radius = sphereSize;
+            }
+
+            Destroy(sphere, grenadeLife); // Destroy the sphere after grenadeLife seconds
         }
     }
 }
