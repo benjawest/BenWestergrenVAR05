@@ -24,6 +24,12 @@ public class CannonScript : MonoBehaviour
             Vector3 spawnPosition = mainCamera.transform.position + mainCamera.transform.forward * 2f;
             GameObject grenade = Instantiate(grenadePrefab, spawnPosition, Quaternion.identity);
 
+            GrenadeScript grenadeScript = grenade.GetComponent<GrenadeScript>();
+            if (grenadeScript != null)
+            {
+                grenadeScript.pinPulled = true;
+            }
+
             Rigidbody rb = grenade.GetComponent<Rigidbody>();
             if (rb != null)
             {

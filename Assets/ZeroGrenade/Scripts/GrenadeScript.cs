@@ -9,6 +9,7 @@ public class GrenadeScript : MonoBehaviour
     [SerializeField] private float blastForce = 700f;
     float countdown;
     bool hasExploded = false;
+    public bool pinPulled = false;
 
     [SerializeField] GameObject explosionEffect;
 
@@ -23,11 +24,14 @@ public class GrenadeScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        countdown -= Time.deltaTime;
-        if (countdown <= 0  && !hasExploded)
+        if (pinPulled)
         {
-            Explode();
-            hasExploded = true;
+            countdown -= Time.deltaTime;
+            if (countdown <= 0  && !hasExploded)
+            {
+                Explode();
+                hasExploded = true;
+            }
         }
     }
 

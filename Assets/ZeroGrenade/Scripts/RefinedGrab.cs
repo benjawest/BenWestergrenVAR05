@@ -89,6 +89,14 @@ public class RefinedGrab : MonoBehaviour
                 heldObject.GetComponent<Rigidbody>().velocity = velocity;
                 heldObject.GetComponent<Rigidbody>().angularVelocity = angularVelocity;
                 Debug.Log("Releasing object, Velocity: " + velocity + " AngularVelocity: " + angularVelocity);
+
+                // Pull the pin on the grenade - if it's a grenade
+                GrenadeScript grenadeScript = heldObject.GetComponent<GrenadeScript>();
+                if (grenadeScript != null)
+                {
+                    grenadeScript.pinPulled = true;
+                }
+
                 heldObject = null;
             }
         }
