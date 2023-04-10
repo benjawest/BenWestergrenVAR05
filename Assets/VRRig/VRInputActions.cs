@@ -89,6 +89,24 @@ public partial class @VRInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""RightGripPressed"",
+                    ""type"": ""Value"",
+                    ""id"": ""aeee339d-312b-455e-9258-5e01376dcd50"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""LeftGripPressed"",
+                    ""type"": ""Value"",
+                    ""id"": ""6879e91d-51ba-456b-89da-4c25548c6b5b"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -201,6 +219,28 @@ public partial class @VRInputActions : IInputActionCollection2, IDisposable
                     ""action"": ""Trigger"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""20447b5d-18bf-4e98-b3f0-618079248b1f"",
+                    ""path"": ""<XRController>{RightHand}/gripPressed"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""VR"",
+                    ""action"": ""RightGripPressed"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cd11aca3-4867-46cb-b54d-81f50e5005a5"",
+                    ""path"": ""<XRController>{LeftHand}/gripPressed"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""VR"",
+                    ""action"": ""LeftGripPressed"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -254,6 +294,8 @@ public partial class @VRInputActions : IInputActionCollection2, IDisposable
         m_Default_RightJoystick = m_Default.FindAction("RightJoystick", throwIfNotFound: true);
         m_Default_RightTrigger = m_Default.FindAction("RightTrigger", throwIfNotFound: true);
         m_Default_Trigger = m_Default.FindAction("Trigger", throwIfNotFound: true);
+        m_Default_RightGripPressed = m_Default.FindAction("RightGripPressed", throwIfNotFound: true);
+        m_Default_LeftGripPressed = m_Default.FindAction("LeftGripPressed", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -320,6 +362,8 @@ public partial class @VRInputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Default_RightJoystick;
     private readonly InputAction m_Default_RightTrigger;
     private readonly InputAction m_Default_Trigger;
+    private readonly InputAction m_Default_RightGripPressed;
+    private readonly InputAction m_Default_LeftGripPressed;
     public struct DefaultActions
     {
         private @VRInputActions m_Wrapper;
@@ -331,6 +375,8 @@ public partial class @VRInputActions : IInputActionCollection2, IDisposable
         public InputAction @RightJoystick => m_Wrapper.m_Default_RightJoystick;
         public InputAction @RightTrigger => m_Wrapper.m_Default_RightTrigger;
         public InputAction @Trigger => m_Wrapper.m_Default_Trigger;
+        public InputAction @RightGripPressed => m_Wrapper.m_Default_RightGripPressed;
+        public InputAction @LeftGripPressed => m_Wrapper.m_Default_LeftGripPressed;
         public InputActionMap Get() { return m_Wrapper.m_Default; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -361,6 +407,12 @@ public partial class @VRInputActions : IInputActionCollection2, IDisposable
                 @Trigger.started -= m_Wrapper.m_DefaultActionsCallbackInterface.OnTrigger;
                 @Trigger.performed -= m_Wrapper.m_DefaultActionsCallbackInterface.OnTrigger;
                 @Trigger.canceled -= m_Wrapper.m_DefaultActionsCallbackInterface.OnTrigger;
+                @RightGripPressed.started -= m_Wrapper.m_DefaultActionsCallbackInterface.OnRightGripPressed;
+                @RightGripPressed.performed -= m_Wrapper.m_DefaultActionsCallbackInterface.OnRightGripPressed;
+                @RightGripPressed.canceled -= m_Wrapper.m_DefaultActionsCallbackInterface.OnRightGripPressed;
+                @LeftGripPressed.started -= m_Wrapper.m_DefaultActionsCallbackInterface.OnLeftGripPressed;
+                @LeftGripPressed.performed -= m_Wrapper.m_DefaultActionsCallbackInterface.OnLeftGripPressed;
+                @LeftGripPressed.canceled -= m_Wrapper.m_DefaultActionsCallbackInterface.OnLeftGripPressed;
             }
             m_Wrapper.m_DefaultActionsCallbackInterface = instance;
             if (instance != null)
@@ -386,6 +438,12 @@ public partial class @VRInputActions : IInputActionCollection2, IDisposable
                 @Trigger.started += instance.OnTrigger;
                 @Trigger.performed += instance.OnTrigger;
                 @Trigger.canceled += instance.OnTrigger;
+                @RightGripPressed.started += instance.OnRightGripPressed;
+                @RightGripPressed.performed += instance.OnRightGripPressed;
+                @RightGripPressed.canceled += instance.OnRightGripPressed;
+                @LeftGripPressed.started += instance.OnLeftGripPressed;
+                @LeftGripPressed.performed += instance.OnLeftGripPressed;
+                @LeftGripPressed.canceled += instance.OnLeftGripPressed;
             }
         }
     }
@@ -417,5 +475,7 @@ public partial class @VRInputActions : IInputActionCollection2, IDisposable
         void OnRightJoystick(InputAction.CallbackContext context);
         void OnRightTrigger(InputAction.CallbackContext context);
         void OnTrigger(InputAction.CallbackContext context);
+        void OnRightGripPressed(InputAction.CallbackContext context);
+        void OnLeftGripPressed(InputAction.CallbackContext context);
     }
 }
