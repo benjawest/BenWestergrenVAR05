@@ -107,6 +107,15 @@ public partial class @VRInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""RightPrimary_Button"",
+                    ""type"": ""Button"",
+                    ""id"": ""9379b8e2-e4c9-4c47-a37f-2a94b79aaadb"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -241,6 +250,17 @@ public partial class @VRInputActions : IInputActionCollection2, IDisposable
                     ""action"": ""LeftGripPressed"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8dbc3abd-72aa-4a7c-b30e-a05441ab1c11"",
+                    ""path"": ""<OculusTouchController>{RightHand}/primaryButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RightPrimary_Button"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -296,6 +316,7 @@ public partial class @VRInputActions : IInputActionCollection2, IDisposable
         m_Default_Trigger = m_Default.FindAction("Trigger", throwIfNotFound: true);
         m_Default_RightGripPressed = m_Default.FindAction("RightGripPressed", throwIfNotFound: true);
         m_Default_LeftGripPressed = m_Default.FindAction("LeftGripPressed", throwIfNotFound: true);
+        m_Default_RightPrimary_Button = m_Default.FindAction("RightPrimary_Button", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -364,6 +385,7 @@ public partial class @VRInputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Default_Trigger;
     private readonly InputAction m_Default_RightGripPressed;
     private readonly InputAction m_Default_LeftGripPressed;
+    private readonly InputAction m_Default_RightPrimary_Button;
     public struct DefaultActions
     {
         private @VRInputActions m_Wrapper;
@@ -377,6 +399,7 @@ public partial class @VRInputActions : IInputActionCollection2, IDisposable
         public InputAction @Trigger => m_Wrapper.m_Default_Trigger;
         public InputAction @RightGripPressed => m_Wrapper.m_Default_RightGripPressed;
         public InputAction @LeftGripPressed => m_Wrapper.m_Default_LeftGripPressed;
+        public InputAction @RightPrimary_Button => m_Wrapper.m_Default_RightPrimary_Button;
         public InputActionMap Get() { return m_Wrapper.m_Default; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -413,6 +436,9 @@ public partial class @VRInputActions : IInputActionCollection2, IDisposable
                 @LeftGripPressed.started -= m_Wrapper.m_DefaultActionsCallbackInterface.OnLeftGripPressed;
                 @LeftGripPressed.performed -= m_Wrapper.m_DefaultActionsCallbackInterface.OnLeftGripPressed;
                 @LeftGripPressed.canceled -= m_Wrapper.m_DefaultActionsCallbackInterface.OnLeftGripPressed;
+                @RightPrimary_Button.started -= m_Wrapper.m_DefaultActionsCallbackInterface.OnRightPrimary_Button;
+                @RightPrimary_Button.performed -= m_Wrapper.m_DefaultActionsCallbackInterface.OnRightPrimary_Button;
+                @RightPrimary_Button.canceled -= m_Wrapper.m_DefaultActionsCallbackInterface.OnRightPrimary_Button;
             }
             m_Wrapper.m_DefaultActionsCallbackInterface = instance;
             if (instance != null)
@@ -444,6 +470,9 @@ public partial class @VRInputActions : IInputActionCollection2, IDisposable
                 @LeftGripPressed.started += instance.OnLeftGripPressed;
                 @LeftGripPressed.performed += instance.OnLeftGripPressed;
                 @LeftGripPressed.canceled += instance.OnLeftGripPressed;
+                @RightPrimary_Button.started += instance.OnRightPrimary_Button;
+                @RightPrimary_Button.performed += instance.OnRightPrimary_Button;
+                @RightPrimary_Button.canceled += instance.OnRightPrimary_Button;
             }
         }
     }
@@ -477,5 +506,6 @@ public partial class @VRInputActions : IInputActionCollection2, IDisposable
         void OnTrigger(InputAction.CallbackContext context);
         void OnRightGripPressed(InputAction.CallbackContext context);
         void OnLeftGripPressed(InputAction.CallbackContext context);
+        void OnRightPrimary_Button(InputAction.CallbackContext context);
     }
 }

@@ -85,6 +85,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "RightPrimary_Button",
+                    "type": "Button",
+                    "id": "9379b8e2-e4c9-4c47-a37f-2a94b79aaadb",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -217,6 +226,17 @@
                     "processors": "",
                     "groups": "VR",
                     "action": "LeftGripPressed",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8dbc3abd-72aa-4a7c-b30e-a05441ab1c11",
+                    "path": "<OculusTouchController>{RightHand}/primaryButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RightPrimary_Button",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
