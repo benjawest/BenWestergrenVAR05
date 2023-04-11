@@ -254,10 +254,10 @@ public partial class @VRInputActions : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""8dbc3abd-72aa-4a7c-b30e-a05441ab1c11"",
-                    ""path"": ""<OculusTouchController>{RightHand}/primaryButton"",
+                    ""path"": ""<XRController>{RightHand}/primaryButton"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""VR"",
                     ""action"": ""RightPrimary_Button"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false

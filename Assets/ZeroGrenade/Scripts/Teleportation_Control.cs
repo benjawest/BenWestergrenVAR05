@@ -6,41 +6,49 @@ using UnityEngine.InputSystem;
 public class Teleportation_Control : MonoBehaviour
 {
     [SerializeField] InputActionReference Main_Button_Input;
+    public Transform playerTransform;
+    public Transform controllerTransform;
     public GameObject teleportMarker;
-    public float teleportDistance = 10f;
+    private VRInputActions input;
 
-    public Transform vrCameraTransform;
-    public Transform vrRHandsTransform;
-    public Transform vrLHandsTransform;
 
+
+    private void Awake()
+    {
+        input = GetComponent<VRInputActions>();
+    }
     void OnEnable()
     {
-        Main_Button_Input.action.Enable();
+        Main_Button_Input.action.performed += TeleportButtonPressed;
+        Main_Button_Input.action.canceled += TeleportButtonReleased;
     }
 
     void OnDisable()
     {
-        Main_Button_Input.action.Disable();
+        Main_Button_Input.action.performed -= TeleportButtonPressed;
+        Main_Button_Input.action.canceled -= TeleportButtonReleased;
     }
 
-    void Update()
+    void TeleportButtonPressed(InputAction.CallbackContext context)
     {
-        if (Main_Button_Input.action.triggered)
-        {
-            RaycastHit hit;
+        Debug.Log("Teleport button pressed!");
 
-            if (Physics.Raycast(vrCameraTransform.position, vrCameraTransform.forward, out hit, teleportDistance))
-            {
-                teleportMarker.SetActive(true);
-                teleportMarker.transform.position = hit.point;
-            }
+        if (Physics.Raycast(controllerTransform.position, controllerTransform.forward, out RaycastHit hit))
+        {
+            Debug.DrawLine(controllerTransform.position, teleportMarker.transform.position, Color.green, 0.5f);
+
+            teleportMarker.SetActive(true);
+            teleportMarker.transform.position = hit.point;
         }
+    }
 
-        if (Main_Button_Input.action.triggered)
+    void TeleportButtonReleased(InputAction.CallbackContext context)
+    {
+        Debug.Log("Teleport button released!");
+
+        if (teleportMarker.activeSelf)
         {
-            transform.position = teleportMarker.transform.position;
-            vrRHandsTransform.position = transform.position;
-            vrLHandsTransform.position= transform.position;
+            playerTransform.position = teleportMarker.transform.position;
             teleportMarker.SetActive(false);
         }
     }
