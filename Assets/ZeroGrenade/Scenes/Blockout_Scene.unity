@@ -10718,9 +10718,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dc3b8230fa435f4393a0292897086fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Right_PrimaryButton_PressThreshold: 0.8
   LeftJoystick: {x: 0, y: 0}
   RightJoystick: {x: 0, y: 0}
   RightTrigger: 0
+  Right_PrimaryButton: 0
 --- !u!114 &1021022515
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10783,10 +10785,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dec9784e5a309149a8b11a604e191d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Main_Button_Input: {fileID: -6213235754158145081, guid: 9219dfbcd3fcff44b9ec641137f4e6a8, type: 3}
-  playerTransform: {fileID: 1021022516}
-  controllerTransform: {fileID: 401818828}
-  teleportMarker: {fileID: 6639772234510924828, guid: 55fd7d5e18487eb4184893f80c2e0c16, type: 3}
+  head: {fileID: 0}
+  hand: {fileID: 0}
+  Teleport: 0
+  TeleportTarget: {x: 0, y: 0, z: 0}
 --- !u!4 &1021374414 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4931435616309436, guid: 4647afdee9cef8c4a978423770bae5e4, type: 3}

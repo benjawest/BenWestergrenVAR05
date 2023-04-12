@@ -2,54 +2,48 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Windows;
 
 public class Teleportation_Control : MonoBehaviour
 {
-    [SerializeField] InputActionReference Main_Button_Input;
-    public Transform playerTransform;
-    public Transform controllerTransform;
-    public GameObject teleportMarker;
-    private VRInputActions input;
 
+    public Transform head;
+    public Transform hand;
 
+    public bool Teleport;
+    public Vector3 TeleportTarget;
+
+    private VRInputController input;
 
     private void Awake()
     {
-        input = GetComponent<VRInputActions>();
+        input = GetComponent<VRInputController>();
     }
-    void OnEnable()
+    private void Update()
     {
-        Main_Button_Input.action.performed += TeleportButtonPressed;
-        Main_Button_Input.action.canceled += TeleportButtonReleased;
-    }
-
-    void OnDisable()
-    {
-        Main_Button_Input.action.performed -= TeleportButtonPressed;
-        Main_Button_Input.action.canceled -= TeleportButtonReleased;
-    }
-
-    void TeleportButtonPressed(InputAction.CallbackContext context)
-    {
-        Debug.Log("Teleport button pressed!");
-
-        if (Physics.Raycast(controllerTransform.position, controllerTransform.forward, out RaycastHit hit))
+        if (Physics.Raycast(hand.position, hand.forward, out RaycastHit hit))
         {
-            Debug.DrawLine(controllerTransform.position, teleportMarker.transform.position, Color.green, 0.5f);
-
-            teleportMarker.SetActive(true);
-            teleportMarker.transform.position = hit.point;
+            TeleportTarget = hit.point;
         }
-    }
 
-    void TeleportButtonReleased(InputAction.CallbackContext context)
-    {
-        Debug.Log("Teleport button released!");
+        Vector3 directionToHead = transform.position - head.position;
 
-        if (teleportMarker.activeSelf)
+        directionToHead.y = 0;
+
+        // If the user presses the trigger? If they do *something*.
+        // They point the controller somewhere, getting a
+        // location they want to move to.
+        if (input.RightPrimary_Button_Pressed)
         {
-            playerTransform.position = teleportMarker.transform.position;
-            teleportMarker.SetActive(false);
+            // Teleport the...rig? To the target position.
+            transform.position = TeleportTarget + directionToHead;
+
+            Teleport = false;
         }
+
+        Debug.DrawLine(transform.position, head.position, Color.cyan, 0);
+        Debug.DrawLine(transform.position, TeleportTarget, Color.yellow, 0);
+
+        Debug.DrawRay(TeleportTarget, directionToHead, Color.red, 0);
     }
 }

@@ -176,6 +176,7 @@ GameObject:
   - component: {fileID: 6166307379317410789}
   - component: {fileID: 6166307379317410785}
   - component: {fileID: 6166307379317410786}
+  - component: {fileID: 4841827259381715179}
   m_Layer: 0
   m_Name: VR Rig
   m_TagString: Untagged
@@ -229,9 +230,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dc3b8230fa435f4393a0292897086fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Right_PrimaryButton_PressThreshold: 0.8
   LeftJoystick: {x: 0, y: 0}
   RightJoystick: {x: 0, y: 0}
   RightTrigger: 0
+  Right_PrimaryButton: 0
 --- !u!114 &6166307379317410789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -277,6 +280,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grenadeSpawnPosition: {fileID: 6166307379121500340}
   grenadePrefab: {fileID: 4445298700667375809, guid: c99f3a466bc187346adc41cc1a1e1b2c, type: 3}
+--- !u!114 &4841827259381715179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6166307379317410811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dec9784e5a309149a8b11a604e191d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  head: {fileID: 6166307379217340354}
+  hand: {fileID: 6166307379773005336}
+  Teleport: 0
+  TeleportTarget: {x: 4, y: 5, z: 4}
 --- !u!1 &6166307379353532180
 GameObject:
   m_ObjectHideFlags: 0
