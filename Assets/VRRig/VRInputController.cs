@@ -45,6 +45,9 @@ public class VRInputController : MonoBehaviour
             RightTrigger = actions.Default.RightTrigger.ReadValue<float>();
             RightPrimary_Button = actions.Default.RightPrimary_Button.ReadValue<float>();
         }
+
+        if (RightPrimary_Button_Pressed)
+            Debug.Log($"Right press: {RightPrimary_Button_Pressed}");
     }
 
     private void LateUpdate()

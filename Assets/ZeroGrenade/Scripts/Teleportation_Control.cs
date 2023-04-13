@@ -35,6 +35,9 @@ public class Teleportation_Control : MonoBehaviour
         // location they want to move to.
         if (input.RightPrimary_Button_Pressed)
         {
+
+            Debug.Log("PRESSED");
+            Debug.Log(input.RightPrimary_Button_Pressed);
             // Teleport the...rig? To the target position.
             transform.position = TeleportTarget + directionToHead;
 

@@ -230,11 +230,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dc3b8230fa435f4393a0292897086fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Right_PrimaryButton_PressThreshold: 0.8
+  RightPrimary_Button_PressThreshold: 0.8
   LeftJoystick: {x: 0, y: 0}
   RightJoystick: {x: 0, y: 0}
   RightTrigger: 0
-  Right_PrimaryButton: 0
+  RightPrimary_Button: 0
 --- !u!114 &6166307379317410789
 MonoBehaviour:
   m_ObjectHideFlags: 0
