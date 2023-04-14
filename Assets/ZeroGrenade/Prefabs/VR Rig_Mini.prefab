@@ -377,12 +377,12 @@ GameObject:
   - component: {fileID: 1667611782693919788}
   - component: {fileID: 4819139236921090216}
   m_Layer: 0
-  m_Name: VR Rig (2.0)
+  m_Name: VR Rig_Mini
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1667611782693919786
 Transform:
   m_ObjectHideFlags: 0

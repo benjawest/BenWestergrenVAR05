@@ -208,7 +208,7 @@ public partial class @VRInputActions : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""4be033f1-7394-444d-9f77-e2bb4d066dac"",
-                    ""path"": ""<XRController>{RightHand}/trigger"",
+                    ""path"": ""<OculusTouchController>/triggerPressed"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""VR"",
