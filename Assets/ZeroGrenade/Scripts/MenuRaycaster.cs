@@ -43,6 +43,7 @@ public class MenuRaycaster : MonoBehaviour
 
         // Update line renderer
         lineRenderer.enabled = true;
+        lineRenderer.positionCount = 2;
         lineRenderer.SetPosition(0, transform.position);
 
         if (hitSomething)
@@ -70,4 +71,12 @@ public class MenuRaycaster : MonoBehaviour
             EventSystem.current.SetSelectedGameObject(null);
         }
     }
+
+    public void ClearLineRenderer()
+    {
+        lineRenderer.positionCount = 0;
+        
+    }
+
+    
 }

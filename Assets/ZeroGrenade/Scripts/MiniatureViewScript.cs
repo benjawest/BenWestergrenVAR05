@@ -1,36 +1,46 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class MiniatureViewScript : MonoBehaviour
 {
-    public GameObject vrRig1;
-    public GameObject vrRig2;
-    private VRInputController input;
-    private bool isAlternate = false;
+    public InputActionReference actionReference; // Reference to the input action to be checked
+    public GameObject firstCameraParent; // Reference to the first camera parent object
+    public GameObject secondCameraParent; // Reference to the second camera parent object
 
-
-
-    private void Awake()
-    {
-        input = GetComponent<VRInputController>();
-    }
+    private bool isSwitched = false; // Indicates if the camera is currently switched or not
 
     void Start()
     {
-        // Disable the second VR rig by default
-        vrRig2.SetActive(false);
+        // Enable the input for actionReference
+        actionReference.action.Enable();
+        firstCameraParent.SetActive(true);
+        secondCameraParent.SetActive(false);
     }
 
     void Update()
     {
-        if (input.LeftPrimary_Button_Pressed)
+        if (actionReference.action.triggered)
         {
-            isAlternate = !isAlternate;
+            SwitchCameras(); // If the input action was triggered, switch the cameras
+            Debug.Log("Cameras Switched");
+        }
+    }
 
-            // Enable/disable the appropriate VR rigs
-            vrRig1.SetActive(!isAlternate);
-            vrRig2.SetActive(isAlternate);
+    void SwitchCameras()
+    {
+        isSwitched = !isSwitched;
+
+        if (isSwitched)
+        {
+            firstCameraParent.SetActive(false);
+            secondCameraParent.SetActive(true);
+        }
+        else
+        {
+            firstCameraParent.SetActive(true);
+            secondCameraParent.SetActive(false);
         }
     }
 }

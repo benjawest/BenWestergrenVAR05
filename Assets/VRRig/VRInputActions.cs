@@ -125,6 +125,15 @@ public partial class @VRInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""LeftSecondary_Button"",
+                    ""type"": ""Button"",
+                    ""id"": ""90e4572d-049b-4062-b08e-9395a72f46e5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -281,6 +290,17 @@ public partial class @VRInputActions : IInputActionCollection2, IDisposable
                     ""action"": ""LeftPrimary_Button"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e821cd51-160f-4b9a-bc4d-548833ffff2c"",
+                    ""path"": ""<XRController>{LeftHand}/secondaryButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""VR"",
+                    ""action"": ""LeftSecondary_Button"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -338,6 +358,7 @@ public partial class @VRInputActions : IInputActionCollection2, IDisposable
         m_Default_LeftGripPressed = m_Default.FindAction("LeftGripPressed", throwIfNotFound: true);
         m_Default_RightPrimary_Button = m_Default.FindAction("RightPrimary_Button", throwIfNotFound: true);
         m_Default_LeftPrimary_Button = m_Default.FindAction("LeftPrimary_Button", throwIfNotFound: true);
+        m_Default_LeftSecondary_Button = m_Default.FindAction("LeftSecondary_Button", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -408,6 +429,7 @@ public partial class @VRInputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Default_LeftGripPressed;
     private readonly InputAction m_Default_RightPrimary_Button;
     private readonly InputAction m_Default_LeftPrimary_Button;
+    private readonly InputAction m_Default_LeftSecondary_Button;
     public struct DefaultActions
     {
         private @VRInputActions m_Wrapper;
@@ -423,6 +445,7 @@ public partial class @VRInputActions : IInputActionCollection2, IDisposable
         public InputAction @LeftGripPressed => m_Wrapper.m_Default_LeftGripPressed;
         public InputAction @RightPrimary_Button => m_Wrapper.m_Default_RightPrimary_Button;
         public InputAction @LeftPrimary_Button => m_Wrapper.m_Default_LeftPrimary_Button;
+        public InputAction @LeftSecondary_Button => m_Wrapper.m_Default_LeftSecondary_Button;
         public InputActionMap Get() { return m_Wrapper.m_Default; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -465,6 +488,9 @@ public partial class @VRInputActions : IInputActionCollection2, IDisposable
                 @LeftPrimary_Button.started -= m_Wrapper.m_DefaultActionsCallbackInterface.OnLeftPrimary_Button;
                 @LeftPrimary_Button.performed -= m_Wrapper.m_DefaultActionsCallbackInterface.OnLeftPrimary_Button;
                 @LeftPrimary_Button.canceled -= m_Wrapper.m_DefaultActionsCallbackInterface.OnLeftPrimary_Button;
+                @LeftSecondary_Button.started -= m_Wrapper.m_DefaultActionsCallbackInterface.OnLeftSecondary_Button;
+                @LeftSecondary_Button.performed -= m_Wrapper.m_DefaultActionsCallbackInterface.OnLeftSecondary_Button;
+                @LeftSecondary_Button.canceled -= m_Wrapper.m_DefaultActionsCallbackInterface.OnLeftSecondary_Button;
             }
             m_Wrapper.m_DefaultActionsCallbackInterface = instance;
             if (instance != null)
@@ -502,6 +528,9 @@ public partial class @VRInputActions : IInputActionCollection2, IDisposable
                 @LeftPrimary_Button.started += instance.OnLeftPrimary_Button;
                 @LeftPrimary_Button.performed += instance.OnLeftPrimary_Button;
                 @LeftPrimary_Button.canceled += instance.OnLeftPrimary_Button;
+                @LeftSecondary_Button.started += instance.OnLeftSecondary_Button;
+                @LeftSecondary_Button.performed += instance.OnLeftSecondary_Button;
+                @LeftSecondary_Button.canceled += instance.OnLeftSecondary_Button;
             }
         }
     }
@@ -537,5 +566,6 @@ public partial class @VRInputActions : IInputActionCollection2, IDisposable
         void OnLeftGripPressed(InputAction.CallbackContext context);
         void OnRightPrimary_Button(InputAction.CallbackContext context);
         void OnLeftPrimary_Button(InputAction.CallbackContext context);
+        void OnLeftSecondary_Button(InputAction.CallbackContext context);
     }
 }
