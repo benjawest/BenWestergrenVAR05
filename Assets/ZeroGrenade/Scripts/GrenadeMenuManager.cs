@@ -10,10 +10,16 @@ public class GrenadeMenuManager : MonoBehaviour
     public bool menuButtonPressed = false;
     public GameObject rightHandObject;
     private MenuRaycaster menuRaycaster;
+    private AudioSource menuAudioSource;
+    public AudioClip menuLoadClip;
+    
 
     // Start is called before the first frame update
     void Start()
     {
+        // assign menuAudioSource to the variable menuAudioSource
+        menuAudioSource = gameObject.AddComponent<AudioSource>();
+        
         // Enable the input for menuButtonAction
         menuButtonAction.action.Enable();
 
@@ -40,6 +46,12 @@ public class GrenadeMenuManager : MonoBehaviour
             {
                 menuObject.SetActive(true);
                 menuRaycaster.enabled = true;
+                // if menuLoadClip is not null, play the sound
+                if (menuLoadClip != null)
+                {
+                    // Play the sound
+                    menuAudioSource.PlayOneShot(menuLoadClip);
+                }
             }
             // If the menu is active, deactivate it, and disable the script MenuRaycaster on rightHandObject
             else

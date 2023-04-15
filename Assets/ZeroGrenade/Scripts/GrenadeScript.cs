@@ -13,6 +13,10 @@ public class GrenadeScript : MonoBehaviour
     public bool pinPulled = false;
 
     [SerializeField] GameObject explosionEffect;
+    [SerializeField] AudioClip explosionSound;
+    [SerializeField] private float destroyDelay = 3f;
+    private AudioSource audioSource;
+    
 
 
 
@@ -20,6 +24,11 @@ public class GrenadeScript : MonoBehaviour
     void Start()
     {
         countdown = delay;
+        
+        // Add an audiosource and assign it to the variable audioSource
+        audioSource = gameObject.AddComponent<AudioSource>();
+        // Assign the clip explosionSound to the audiosource
+        audioSource.clip = explosionSound;
     }
 
     // Update is called once per frame
@@ -43,8 +52,13 @@ public class GrenadeScript : MonoBehaviour
         {
             // Instantiate the game object with the particle system component
             Instantiate(explosionEffect, transform.position, Quaternion.Euler(0, 0, 0));
+        }
 
-            
+        // If explosionSound is not null, play the sound
+        if (audioSource.clip != null)
+        {
+            // Play the sound
+            audioSource.Play();
         }
 
         // Get Nearby objects
@@ -55,6 +69,13 @@ public class GrenadeScript : MonoBehaviour
             // Call the function AddScore(1) on the script GrenadeGameManager on the game object GameManager
             GameObject.Find("GameManager").GetComponent<GrenadeGameManager>().AddScore(1);
             
+            // Check if the object has a tag "Goose"
+            if (nearbyOjbect.tag == "Goose")
+            {
+                // call PlayAudio() on nearbyObject
+                nearbyOjbect.GetComponent<GrabbableObject>().PlayAudio();
+            }
+
             // damage
             Destructable dest = nearbyOjbect.GetComponent<Destructable>();
             if (dest != null)
@@ -76,7 +97,7 @@ public class GrenadeScript : MonoBehaviour
         }
 
         // Remove grenade
-        Destroy(gameObject);
+        Destroy(gameObject, destroyDelay);
     }
 
 }

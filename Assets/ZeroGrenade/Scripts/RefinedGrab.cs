@@ -127,6 +127,8 @@ public class RefinedGrab : MonoBehaviour
                         // Attach held object to this hand
                         heldObject.transform.parent = transform;
                         heldObject.GetComponent<Rigidbody>().isKinematic = true;
+                        // Call PlayAudio() on the held object 
+                        heldObject.PlayAudio();
                     }
                     else // Else, user is not pressing trigger
                     {

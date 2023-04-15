@@ -134,6 +134,8 @@ MonoBehaviour:
   destructionForceThreshold: 10
   pinPulled: 0
   explosionEffect: {fileID: 1804206099813350, guid: 4dd02b5f854b6c84990fbeb810abffe4, type: 3}
+  explosionSound: {fileID: 8300000, guid: 9fc8b21f7b5180f4287ed177efbf04d6, type: 3}
+  destroyDelay: 3
 --- !u!114 &-2411343077187605574
 MonoBehaviour:
   m_ObjectHideFlags: 0

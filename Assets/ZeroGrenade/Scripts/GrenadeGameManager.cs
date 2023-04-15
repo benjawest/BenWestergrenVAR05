@@ -22,6 +22,11 @@ public class GrenadeGameManager : MonoBehaviour
     public GameObject WinScreen;
     public GameObject LoseScreen;
 
+    public AudioClip buttonPressClip;
+    public AudioClip winClip;
+    public AudioClip loseClip;
+    private AudioSource audioSource;
+    private AudioManager audioManager;
 
     void Start()
     {
@@ -29,8 +34,14 @@ public class GrenadeGameManager : MonoBehaviour
         UpdateScoreUI();
         UpdateCountdownUI();
 
+        // Assign ausiosource to the variable audioSource
+        audioSource = gameObject.AddComponent<AudioSource>();
+
         // Get the script MenuRaycaster on rightHandObject
         menuRaycaster = RighthandObject.GetComponent<MenuRaycaster>();
+
+        // Get a reference to the AudioManager component on this game object
+        audioManager = GetComponent<AudioManager>();
     }
 
     void Update()
@@ -41,7 +52,11 @@ public class GrenadeGameManager : MonoBehaviour
             if (timeLeft <= 0.0f || score >= scoreGoal)
             {
                 gameStarted = false;
-                if(score >= scoreGoal)
+                // Call PlayIntroTrack() on the AudioManager component
+                audioManager.PlayIntroTrack();
+
+
+                if (score >= scoreGoal)
                 {
                     onGameWin();
                 }
@@ -83,19 +98,30 @@ public class GrenadeGameManager : MonoBehaviour
         GameplayUI.SetActive(true);
         menuRaycaster.ClearLineRenderer();
         menuRaycaster.enabled = false;
+        // Call PlayActionTrack() on the script AudioManager on the GameObject AudioManager
+        FindObjectOfType<AudioManager>().PlayActionTrack();
+        // if buttonPressClip is not null, play the sound
+        if (buttonPressClip != null)
+        {
+            // Play the sound
+            audioSource.PlayOneShot(buttonPressClip);
+        }
+
     }
 
     private void OnGameLose()
     {
         LoseScreen.SetActive(true);
         menuRaycaster.enabled = true;
+        audioSource.PlayOneShot(loseClip);
     }
 
     private void onGameWin()
     {
         WinScreen.SetActive(true);
         menuRaycaster.enabled = true;
-
+        audioSource.PlayOneShot(winClip);
+       
 
     }
 }
