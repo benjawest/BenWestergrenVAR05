@@ -7382,6 +7382,39 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2623029546286143121, guid: 502a96f2c83443a4bba77ade6cfc5387, type: 3}
   m_PrefabInstance: {fileID: 6166307379530832596}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1749617043 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 120396367936941412, guid: 502a96f2c83443a4bba77ade6cfc5387, type: 3}
+  m_PrefabInstance: {fileID: 6166307379530832596}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1749617047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1749617042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dec9784e5a309149a8b11a604e191d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  head: {fileID: 2128522924}
+  hand: {fileID: 1749617043}
+  Teleport: 0
+  TeleportTarget: {x: 0, y: 0, z: 0}
+  raycastDistance: 10
+  raycastLayer:
+    serializedVersion: 2
+    m_Bits: 1
+  lineColor: {r: 1, g: 1, b: 1, a: 1}
+  lineThickness: 0.02
+  forwardVector: {x: 0, y: -1, z: 1}
+  TeleportButtonAction: {fileID: -6213235754158145081, guid: 9219dfbcd3fcff44b9ec641137f4e6a8, type: 3}
+  isTeleportButtonPressed: 0
+  TeleportButtonActionValue: 0
+  teleportAimActive: 0
+  VRRig: {fileID: 1162675931}
 --- !u!1001 &1762033906
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8493,6 +8526,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &2128522924 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6166307379217340354, guid: 502a96f2c83443a4bba77ade6cfc5387, type: 3}
+  m_PrefabInstance: {fileID: 6166307379530832596}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2129741920 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1904132469404530, guid: 30279db7b9983d14495f8e5eb978af20, type: 3}
@@ -8691,7 +8729,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: VR Rig
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 738261045815072983, guid: 502a96f2c83443a4bba77ade6cfc5387, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 502a96f2c83443a4bba77ade6cfc5387, type: 3}
 --- !u!1 &7633798200080049249 stripped
 GameObject:
