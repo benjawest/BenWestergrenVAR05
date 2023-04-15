@@ -23,8 +23,8 @@ public class GrenadeMenuManager : MonoBehaviour
         // Get the script MenuRaycaster on rightHandObject
         menuRaycaster = rightHandObject.GetComponent<MenuRaycaster>();
 
-        // Disable the script MenuRaycaster on rightHandObject
-        menuRaycaster.enabled = false;
+        // Enable the script MenuRaycaster on rightHandObject
+        menuRaycaster.enabled = true;
     }
 
     // Update is called once per frame
@@ -46,7 +46,6 @@ public class GrenadeMenuManager : MonoBehaviour
             {
                 menuObject.SetActive(false);
                 // Call the function ClearLineRenderer() on the script MenuRaycaster on rightHandObject
-                MenuRaycaster menuRaycaster = rightHandObject.GetComponent<MenuRaycaster>();
                 menuRaycaster.ClearLineRenderer();
                 menuRaycaster.enabled = false;
 

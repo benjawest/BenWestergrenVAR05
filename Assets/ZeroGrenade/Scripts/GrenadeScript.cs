@@ -7,6 +7,7 @@ public class GrenadeScript : MonoBehaviour
     [SerializeField] private float delay = 3f;
     [SerializeField] private float blastRadius = 5f;
     [SerializeField] private float blastForce = 700f;
+    public float destructionForceThreshold = 10.0f;
     float countdown;
     bool hasExploded = false;
     public bool pinPulled = false;
@@ -51,6 +52,9 @@ public class GrenadeScript : MonoBehaviour
 
         foreach(Collider nearbyOjbect in collidersToDestroy)
         {
+            // Call the function AddScore(1) on the script GrenadeGameManager on the game object GameManager
+            GameObject.Find("GameManager").GetComponent<GrenadeGameManager>().AddScore(1);
+            
             // damage
             Destructable dest = nearbyOjbect.GetComponent<Destructable>();
             if (dest != null)
