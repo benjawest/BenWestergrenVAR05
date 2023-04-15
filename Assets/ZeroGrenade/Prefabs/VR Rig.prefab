@@ -533,7 +533,7 @@ GameObject:
   - component: {fileID: 522931746}
   - component: {fileID: 522931745}
   m_Layer: 5
-  m_Name: StartButton
+  m_Name: ReStartButton
   m_TagString: UI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -644,8 +644,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SceneManagerScript, Assembly-CSharp
-        m_MethodName: LoadScene
-        m_Mode: 5
+        m_MethodName: ReloadScene
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1062,8 +1062,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SceneManagerScript, Assembly-CSharp
-        m_MethodName: LoadScene
-        m_Mode: 5
+        m_MethodName: ReloadScene
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1493,8 +1493,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SceneManagerScript, Assembly-CSharp
-        m_MethodName: LoadScene
-        m_Mode: 5
+        m_MethodName: ReloadScene
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2260,6 +2260,7 @@ GameObject:
   - component: {fileID: 4985341774657069572}
   - component: {fileID: 7381597665767405968}
   - component: {fileID: 582620965908461610}
+  - component: {fileID: 1749617047}
   m_Layer: 0
   m_Name: Right
   m_TagString: Untagged
@@ -2274,7 +2275,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2623029546286143121}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: -0.000011541473, y: -0.000023896107, z: 0.000040369778, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2283,7 +2284,7 @@ Transform:
   - {fileID: 5192297686490120324}
   m_Father: {fileID: 6166307379317410784}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -0.001, y: -0.003, z: 0.005}
 --- !u!114 &4985341774657069572
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2310,7 +2311,7 @@ LineRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2623029546286143121}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -2322,8 +2323,7 @@ LineRenderer:
   m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: f86151485d176124cbae4c807f6e0ea6, type: 2}
+  m_Materials: []
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2424,6 +2424,37 @@ MonoBehaviour:
   triggerAction: {fileID: -4805371049225084647, guid: 9219dfbcd3fcff44b9ec641137f4e6a8, type: 3}
   isTriggerPressed: 0
   triggerActionValue: 0
+--- !u!114 &1749617047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2623029546286143121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dec9784e5a309149a8b11a604e191d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  head: {fileID: 6166307379217340354}
+  hand: {fileID: 120396367936941412}
+  TeleportTarget: {x: 0, y: 0, z: 0}
+  raycastDistance: 10
+  raycastLayer:
+    serializedVersion: 2
+    m_Bits: 1
+  lineColor: {r: 1, g: 1, b: 1, a: 1}
+  lineThickness: 0.02
+  forwardVector: {x: 0, y: -1, z: 1}
+  TeleportButtonAction: {fileID: -6213235754158145081, guid: 9219dfbcd3fcff44b9ec641137f4e6a8, type: 3}
+  isTeleportButtonPressed: 0
+  TeleportButtonActionValue: 0
+  teleportAimActive: 0
+  teleportationIndicatorPrefab: {fileID: 1735607139845918737, guid: e4fc8101b5fccba439140e496d952f86, type: 3}
+  spinSpeed: 100
+  teleportationIndicatorOffset: 0.1
+  VRRig: {fileID: 6166307379317410811}
+  teleportationClip: {fileID: 8300000, guid: 68a96a09650b76047b62992a446fb0a6, type: 3}
 --- !u!1 &6166307379121500299
 GameObject:
   m_ObjectHideFlags: 0
@@ -2504,7 +2535,6 @@ GameObject:
   - component: {fileID: 6166307379317410789}
   - component: {fileID: 6166307379317410785}
   - component: {fileID: 6166307379317410786}
-  - component: {fileID: 738261045815072983}
   - component: {fileID: 1162675940}
   m_Layer: 0
   m_Name: VR Rig
@@ -2610,22 +2640,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grenadeSpawnPosition: {fileID: 6166307379121500340}
   grenadePrefab: {fileID: 4445298700667375809, guid: c99f3a466bc187346adc41cc1a1e1b2c, type: 3}
---- !u!114 &738261045815072983
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6166307379317410811}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4dec9784e5a309149a8b11a604e191d4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  head: {fileID: 6166307379217340354}
-  hand: {fileID: 120396367936941412}
-  Teleport: 0
-  TeleportTarget: {x: 4, y: 5, z: 4}
 --- !u!114 &1162675940
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2642,6 +2656,7 @@ MonoBehaviour:
   menuButtonAction: {fileID: -7929850209717743437, guid: 9219dfbcd3fcff44b9ec641137f4e6a8, type: 3}
   menuButtonPressed: 0
   rightHandObject: {fileID: 2623029546286143121}
+  menuLoadClip: {fileID: 8300000, guid: f08ee9a61a1f5ea4ab5c0859819ea79b, type: 3}
 --- !u!1 &6166307379514078798
 GameObject:
   m_ObjectHideFlags: 0

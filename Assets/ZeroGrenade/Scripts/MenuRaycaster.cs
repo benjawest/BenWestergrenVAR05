@@ -17,12 +17,13 @@ public class MenuRaycaster : MonoBehaviour
 
     private LineRenderer lineRenderer;
 
-    void Start()
+    void Awake()
     {
         // Enable the input for triggerAction
         triggerAction.action.Enable();
         
         lineRenderer = GetComponent<LineRenderer>();
+        lineRenderer.enabled = true;
         lineRenderer.startWidth = lineThickness;
         lineRenderer.endWidth = lineThickness;
         lineRenderer.material.color = lineColor;
