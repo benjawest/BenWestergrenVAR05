@@ -38,7 +38,7 @@ public class TeleportationScript : MonoBehaviour
     private AudioSource audioSource;
     public AudioClip teleportationClip;
 
-    private void Start()
+    private void Awake()
     {
         TeleportButtonAction.action.Enable();
 

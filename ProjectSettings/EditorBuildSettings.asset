@@ -5,19 +5,19 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Bolf/Scenes/MenuScene.unity
     guid: a3ed360284d31dd478dfdf84ddcdd3a7
-  - enabled: 1
+  - enabled: 0
     path: Assets/Bolf/Scenes/Scene1.unity
     guid: fe4724e0e55b8ee4da6d0da5146f45be
-  - enabled: 1
+  - enabled: 0
     path: Assets/Bolf/Scenes/Scene2.unity
     guid: ac1b8363dfd0d1e498b69157f0d5d626
-  - enabled: 1
+  - enabled: 0
     path: Assets/Bolf/Scenes/Scene4.unity
     guid: 79a7999b543f3ea44b81bb45c00e7579
-  - enabled: 1
+  - enabled: 0
     path: Assets/ZeroGrenade/Scenes/Menu_Scene.unity
     guid: 87822d234c245624abf0c62c9edf365b
   - enabled: 1

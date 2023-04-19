@@ -135,7 +135,7 @@ MonoBehaviour:
   pinPulled: 0
   explosionEffect: {fileID: 1804206099813350, guid: 4dd02b5f854b6c84990fbeb810abffe4, type: 3}
   explosionSound: {fileID: 8300000, guid: 9fc8b21f7b5180f4287ed177efbf04d6, type: 3}
-  destroyDelay: 3
+  destroyDelay: 2
 --- !u!114 &-2411343077187605574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149,3 +149,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   highlightMaterial: {fileID: 2100000, guid: 541835477ca2a394c81dffd8bccce420, type: 2}
+  grabAudio: {fileID: 0}
